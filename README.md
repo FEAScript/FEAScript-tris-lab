@@ -2,38 +2,16 @@
 
 # Tri's Lab by FEAScript
 
-Playful, browser-only ways to meet the finite element method. Every result is a real [FEAScript](https://feascript.com) solve.
+Tri's Lab by FEAScript is a playful place to discover the finite element method, the technique engineers use to simulate how heat spreads, how fluids flow and how structures bend. It is made for students and curious beginners: you don't need to know the maths or write any code. Tri, a small triangle robot, shows you around.
 
-**Play it at [lab.feascript.com](https://lab.feascript.com).** No install, no account: open `index.html` in a browser, or serve the folder with `python3 -m http.server`.
+Everything runs in your browser, and every result is a real simulation, solved by [FEAScript](https://feascript.com), the open-source finite element library in JavaScript.
 
-The [FEAScript tutorials](https://feascript.com/#tutorials) link here from their "Tri's tip" callouts, and to single FEM Blocks missions with `blocks/?mission=<id>` (ids in `blocks/js/missions.js`). The pages share the FEAScript website's styles and scripts, loaded from `https://feascript.com/feascript-website.{css,js}`.
+There are two ways to play:
 
-```
-index.html          the Tri's Lab page
-tris-lab.css        its styles (website tokens + pixel accents)
-assets/             the Tri's Lab logo (tris-lab-icon.svg, tris-lab-logo.svg) and the page screenshots
-critical-mesh/      Critical Mesh, a pixel-art heat-conduction game (see its README)
-blocks/             FEM Blocks, a no-code block editor with missions for young learners
-```
+- **Critical Mesh**, a pixel-art game. You are the night engineer of a city's power plant: place heat cells on a metal plate, deliver the power the city needs and keep the plate from overheating.
+- **FEM Blocks**. Snap blocks together to build a simulation, then take on short missions that each teach one idea.
 
-## FEM Blocks
-
-Pixel-art Blockly blocks build a heat-conduction, creeping-flow or front-propagation (eikonal) model: a shape (bar or plate), a material (k), heaters (Q), edge conditions, and the solve and show steps. Run executes the generated FEAScript code, which is shown in the Code tab.
-
-- **Missions**: nine missions (`js/missions.js`), each about one idea: a straight-line profile, a source term, 2D conduction, insulated edges, conductivity, convective cooling, mesh refinement, a lid-driven cavity and a freezing front (eikonal), plus a sandbox. Each goal is checked on the real FEAScript result.
-- **Picture and Code**: the result as pixel art, and the FEAScript code the blocks write. Clicking a block lights up its lines of code.
-- **The math**: first the governing equation, with the term the clicked block controls highlighted and explained in plain words; then how the run was solved (mesh, nodes, the sparsity pattern of K, the solve time).
-
-```
-js/pixels.js     pixel art: block icons (SVG data URIs) and Tri, the mascot
-js/blocks.js     pixel renderer, themes, block definitions, toolbox, block explanations
-js/generator.js  blocks → checks with friendly messages → FEAScript code
-js/missions.js   missions and their starting workspaces
-js/results.js    pixel heat maps, bar graphs, flow tracers, the animated front, "How it's solved"
-js/app.js        workspace, running, missions, The math tab, Tri, save/open, theme
-```
-
-Blockly 12 (Apache 2.0) and FEAScript load from CDNs. FEAScript is pinned to a release (`FEASCRIPT_VERSION` in `js/app.js` and `critical-mesh/js/config.js`); bump it on purpose and replay the missions and shifts. Progress is kept in `localStorage` (`femBlocks.v1`). Both apps also work from `file://`.
+**Play it at [lab.feascript.com](https://lab.feascript.com).** No install, no account.
 
 ## Licensing
 
