@@ -4,6 +4,7 @@
  *  The physics behind the game, taught while you play:
  *    · the live equation panel next to the Plate
  *    · Field Notes: short physics cards unlocked by playing
+ *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";

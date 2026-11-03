@@ -9,7 +9,7 @@ Nodessa, 2089. The city runs on the Heatworks: a 40 m × 20 m slab of alloy (the
 Open `index.html` directly in a browser (double-click, `file://`), or serve the folder:
 
 ```bash
-python3 -m http.server   # then open http://localhost:8000/tris-lab/critical-mesh/
+python3 -m http.server   # then open http://localhost:8000/critical-mesh/
 ```
 
 It needs an internet connection: FEAScript is loaded from its CDN (pinned to a release by `FEASCRIPT_VERSION` in `js/config.js`).

@@ -2,6 +2,7 @@
  * ════════════════════════════════════════════════════════════════
  *  Critical Mesh · story.js
  *  Cast, campaign (10 shifts + 3 engineering interludes) and dialogue
+ *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
  * ════════════════════════════════════════════════════════════════
  *
  *  A dialogue line is [speaker, text] or [speaker, text, condition(flags)].

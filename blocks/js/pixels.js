@@ -3,6 +3,7 @@
  *  FEM Blocks · pixels.js
  *  Pixel art drawn from character maps: block icons (as SVG data
  *  URIs, so Blockly can show them) and Tri, the mascot robot
+ *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
@@ -294,6 +295,7 @@ function iconUri(name) {
 // Tri's body is the FEAScript logo triangle (same points, same tilt), drawn on a 36 × 35 pixel grid and
 // meshed into 4 × 4-pixel elements. The same drawing is the Tri's Lab logo (assets/tris-lab-icon.svg),
 // the Tri's Lab page hero and the mascot in this app. The hop and the blink are CSS (class "lab-tri").
+// Tri's design is reserved by FEAScript and not covered by the MIT licence (see README, Licensing).
 // Faces: [x, y, w, h, colour] pixel rectangles; "E" = eye white, "K" = ink
 const TRI_FACES = {
   idle: { eyes: [[16, 16, 3, 3, "E"], [22, 16, 3, 3, "E"], [17, 17, 2, 2, "K"], [23, 17, 2, 2, "K"]], mouth: [[18, 22, 1, 1], [19, 23, 4, 1], [23, 22, 1, 1]] },

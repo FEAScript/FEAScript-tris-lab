@@ -3,6 +3,7 @@
  *  FEM Blocks · missions.js
  *  Nine short missions, each about one idea of the finite element
  *  method. Every goal is checked on the real FEAScript result.
+ *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";

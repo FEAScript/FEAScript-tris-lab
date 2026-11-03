@@ -3,6 +3,7 @@
  *  Critical Mesh · art.js
  *  Original pixel art drawn in code: palette, sprites, pixel fonts
  *  and small drawing helpers
+ *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
@@ -42,7 +43,8 @@ const SPRITES = {
     ".kfHfcfffffffcfk",
     ".kfffcfffffffcfk",
   ],
-  // Tri, the physics guide: the FEAScript triangle with a face
+  // Tri, the physics guide: the FEAScript triangle with a face. Tri's design is reserved by FEAScript,
+  // not covered by the MIT licence (see README, Licensing)
   tri: [
     "................",
     "..........kk....",
