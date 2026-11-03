@@ -35,10 +35,6 @@ js/app.js        workspace, running, missions, The math tab, Tri, save/open, the
 
 Blockly 12 (Apache 2.0) and FEAScript load from CDNs. FEAScript is pinned to a release (`FEASCRIPT_VERSION` in `js/app.js` and `critical-mesh/js/config.js`); bump it on purpose and replay the missions and shifts. Progress is kept in `localStorage` (`femBlocks.v1`). Both apps also work from `file://`.
 
-## Contributing
-
-Issues and pull requests are welcome: new missions, Field Notes, translations, bug reports. Please sign off your commits (`git commit -s`, [DCO](https://developercertificate.org)). Questions: [Discord](https://discord.gg/3DVjNcuW4f) or info@feascript.com.
-
 ## Licensing
 
 Tri's Lab is code, writing and art, and each has its own terms:
