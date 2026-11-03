@@ -199,7 +199,7 @@
         </div>
 
         <aside class="hud">
-          <section class="px-panel">
+          <section class="px-panel hud-die">
             <h3>THE DIE</h3>
             <div class="dice-row">
               <canvas id="die" class="px" width="15" height="15"></canvas>
@@ -210,7 +210,7 @@
             </div>
           </section>
 
-          <section class="px-panel">
+          <section class="px-panel hud-engineer">
             <h3>ENGINEER</h3>
             <div class="hearts" id="hearts"></div>
             <div class="suit-row">
@@ -220,7 +220,7 @@
             </div>
           </section>
 
-          <section class="px-panel">
+          <section class="px-panel hud-status">
             <h3>PLATE STATUS <span class="alarm" id="alarm"></span></h3>
             <div class="stat"><span>Turn</span><b id="turn">0</b></div>
             <div class="stat"><span>Max temperature</span><b id="maxT">20.0 °C</b></div>
@@ -236,7 +236,7 @@
             <div class="stat"><span>Last solve (FEAScript)</span><b id="solveTime">–</b></div>
           </section>
 
-          <section class="px-panel">
+          <section class="px-panel hud-actions">
             <div class="actions">
               <button class="px-btn heat wide" id="rollBtn" type="button">🎲 ROLL <kbd>R</kbd></button>
               <button class="px-btn cool" id="bankBtn" type="button">BANK <kbd>B</kbd></button>

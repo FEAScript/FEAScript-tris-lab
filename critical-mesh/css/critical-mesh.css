@@ -2083,3 +2083,94 @@ details.eq-panel summary .eq-more {
 .eq-edges [data-edge] {
   margin-top: 0;
 }
+
+/* ─── Phones ─── */
+@media (max-width: 720px) {
+  /* The top bar wraps instead of pushing buttons off-screen */
+  .topbar {
+    position: static;
+    flex-wrap: wrap;
+    height: auto;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .topbar-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    margin-left: auto;
+  }
+
+  .icon-btn {
+    white-space: nowrap;
+  }
+
+  #diffChip {
+    display: none;
+  }
+
+  .note-toast {
+    max-width: calc(100vw - 2rem);
+  }
+
+  /* Board first, then the buttons you press every turn, then the readouts */
+  .game {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0.7rem;
+    padding: 0.75rem;
+  }
+
+  .stage,
+  .hud {
+    display: contents;
+  }
+
+  .stage > *,
+  .hud > * {
+    min-width: 0;
+  }
+
+  .stage-head {
+    order: 1;
+  }
+
+  .board-wrap {
+    order: 2;
+  }
+
+  .msg-bar {
+    order: 3;
+  }
+
+  .hud-actions,
+  #labPanel {
+    order: 4;
+  }
+
+  #toolsPanel {
+    order: 5;
+  }
+
+  .hud-die {
+    order: 6;
+  }
+
+  .hud-engineer {
+    order: 7;
+  }
+
+  .hud-status {
+    order: 8;
+  }
+
+  .log {
+    order: 9;
+  }
+
+  .eq-wrap {
+    order: 10;
+  }
+}
