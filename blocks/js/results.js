@@ -77,8 +77,10 @@ const Results = {
   init() {
     this.canvas = $("result");
     this.ctx = this.canvas.getContext("2d");
-    this.canvas.addEventListener("mousemove", (e) => this.hover(e));
-    this.canvas.addEventListener("mouseleave", () => ($("hoverTip").className = "fb-tip"));
+    // Pointer events: a mouse hovers, a finger taps or slides sideways
+    this.canvas.addEventListener("pointermove", (e) => this.hover(e));
+    this.canvas.addEventListener("pointerdown", (e) => this.hover(e));
+    this.canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && ($("hoverTip").className = "fb-tip"));
     window.addEventListener("resize", () => this.res && this.draw());
   },
 
@@ -592,8 +594,12 @@ const Results = {
         : r.physics === "front"
           ? `x ${x.toFixed(2)}${r.dim === "2D" ? `, y ${y.toFixed(2)}` : ""} m<br><b>arrival time φ = ${fmt(val)}</b>`
           : `x ${x.toFixed(2)}${r.dim === "2D" ? `, y ${y.toFixed(2)}` : ""} m<br><b>T = ${fmt(val)} °C</b>`;
-    tip.style.left = `${e.clientX - rect.left + 14}px`;
-    tip.style.top = `${e.clientY - rect.top + 10}px`;
+    // Place the tip in the wrapper (which centres the canvas) and keep it inside on narrow screens
+    const wrap = this.canvas.parentElement;
+    const box = wrap.getBoundingClientRect();
+    const maxLeft = wrap.clientWidth - tip.offsetWidth - 4;
+    tip.style.left = `${Math.max(0, Math.min(e.clientX - box.left + 14, maxLeft))}px`;
+    tip.style.top = `${e.clientY - box.top + 10}px`;
     tip.className = "fb-tip on";
   },
 

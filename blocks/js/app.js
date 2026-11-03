@@ -178,6 +178,10 @@ function loadWorkspace(json) {
   }
   Blockly.Events.enable();
   workspace.scrollCenter();
+  // On phones the stack is wider than the view: show its left edge, not its middle
+  const metrics = workspace.getMetricsManager();
+  const content = metrics.getContentMetrics();
+  if (content.width > metrics.getViewMetrics().width) workspace.scroll(16 - content.left, workspace.scrollY);
   refresh();
 }
 
@@ -479,7 +483,7 @@ async function boot() {
     renderer: "pixel",
     theme: isDark() ? THEMES.dark : THEMES.light,
     grid: { spacing: 16, length: 2, colour: "rgba(140, 138, 130, 0.35)", snap: true },
-    zoom: { controls: true, wheel: false, startScale: 0.9, maxScale: 1.6, minScale: 0.5 },
+    zoom: { controls: true, wheel: false, startScale: matchMedia("(max-width: 640px)").matches ? 0.75 : 0.9, maxScale: 1.6, minScale: 0.5 },
     move: { scrollbars: true, drag: true, wheel: true },
     trashcan: true,
     sounds: false,

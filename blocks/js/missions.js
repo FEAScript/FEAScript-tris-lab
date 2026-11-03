@@ -74,7 +74,7 @@ const MISSIONS = [
     id: "plate",
     title: "Into 2D",
     text: "Now a flat plate, 4 m wide and 2 m tall. Its bottom edge sits on a hot stove at 100 °C. Let's put ice along the top edge. The left and right sides have no blocks... what do you think happens there?",
-    goal: "Put the top edge at <b>0 °C</b>, run it, then <b>hover</b> over the picture to read temperatures.",
+    goal: "Put the top edge at <b>0 °C</b>, run it, then <b>hover</b> over (or tap) the picture to read temperatures.",
     hint: "The loose orange block already says 0 °C: set it to <i>top</i> and snap it in.",
     start: () => startWorkspace("heat", [B.plate(4, 2, 8, 4), B.temp("bottom", 100), B.solve(), B.show(true)], [B.temp("top", 0)]),
     check: (r) => r.dim === "2D" && hasEdge(r.spec, "bottom", "temp") && hasEdge(r.spec, "top", "temp"),

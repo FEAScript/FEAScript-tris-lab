@@ -52,6 +52,7 @@ html.site body {
   font-size: 1.35rem;
   font-weight: 300;
   color: var(--ink-strong);
+  white-space: nowrap;
 }
 
 .fb-brand > svg {
@@ -256,14 +257,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   color: var(--ink);
 }
 
-.fb-goal {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
 .fb-goal > span {
+  display: inline-block;
+  margin-right: 0.5rem;
   font-family: var(--font-pixel);
   font-size: 0.98rem;
     padding: 0.05rem 0.4rem;
@@ -484,6 +480,7 @@ html[data-theme="dark"] .lab-tri .tri-feet {
 
 #result {
   max-width: 100%;
+  touch-action: pan-y;
   height: auto !important;
 }
 
@@ -509,6 +506,7 @@ html[data-theme="dark"] .lab-tri .tri-feet {
 }
 
 .kbd-run {
+  white-space: nowrap;
   font-family: var(--font-pixel);
     padding: 0 0.3rem;
   color: #fff;
@@ -543,6 +541,10 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   font-family: var(--font-pixel);
   font-size: 1.1rem;
   color: var(--muted);
+}
+
+.fb-legend > span {
+  white-space: nowrap;
 }
 
 .fb-legend-bar {
@@ -972,9 +974,72 @@ html[data-theme="dark"] .lab-tri .tri-feet {
     display: none;
   }
 
+  /* Keep the top bar inside the screen: logo only, smaller title */
+  .fb-top {
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .fb-brand > span {
+    display: none;
+  }
+
+  .fb-brand > svg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  .fb-title {
+    font-size: 1.5rem;
+  }
+
+  .fb-top-right .fb-btn {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .fb-mission {
+    align-items: start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
   #mascot {
     width: 48px;
     height: 48px;
+  }
+
+  .fb-bubble::before {
+    top: 18px;
+  }
+
+  .fb-bench {
+    padding: 0.75rem;
+  }
+
+  /* Leave the blocks more room next to the toolbox */
+  .blocklyToolboxCategory,
+  .blocklyTreeRow {
+    padding: 0.25rem 0.4rem 0.25rem 0.3rem !important;
+  }
+
+  .blocklyToolboxCategoryLabel,
+  .blocklyTreeLabel {
+    font-size: 1.05rem !important;
+  }
+
+  .fb-legend {
+    font-size: 1rem;
+  }
+
+  .fb-legend-bar i {
+    width: 8px;
+  }
+
+  .fb-run {
+    right: 0.7rem;
+    top: 0.6rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    font-size: 1.3rem !important;
   }
 
   .fb-terms {
