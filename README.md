@@ -57,4 +57,4 @@ In the files that mix code and writing or art, the code is MIT and the writing a
 
 **Tri and the FEAScript marks.** You may use Tri, the logos and the names, unchanged, when you refer to FEAScript or Tri's Lab: in a lesson, a talk, a blog post, or a fork that says where it comes from. For anything else (merchandise, a product or service, another project's mascot), please ask first at info@feascript.com. A fork you redistribute should replace Tri and the logos, or say clearly that it is not the official Tri's Lab.
 
-Third-party software that Tri's Lab by FEAScript loads at runtime is listed in [NOTICE](NOTICE).
+Third-party software that Tri's Lab by FEAScript loads at runtime is listed in [NOTICE.md](NOTICE.md).
