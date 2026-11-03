@@ -10,12 +10,7 @@ Tri's Lab loads the following third-party software at runtime. None of it is inc
    - Source: https://github.com/google/blockly
    - Loaded from a CDN at runtime; not included (FEM Blocks)
 
-2. **FEAScript**
-   - License: MIT (https://github.com/FEAScript/FEAScript-core/blob/main/LICENSE), Copyright (c) 2023-2026 FEAScript
-   - Source: https://github.com/FEAScript/FEAScript-core
-   - Loaded from a CDN at runtime; not included
-
-3. **Google Fonts: Roboto, Roboto Mono, Jersey 10, Silkscreen**
+2. **Google Fonts: Roboto, Roboto Mono, Jersey 10, Silkscreen**
    - License: SIL Open Font License 1.1 or Apache 2.0, per font (https://fonts.google.com/attribution)
    - Source: https://fonts.google.com
    - Loaded from fonts.googleapis.com; not included
