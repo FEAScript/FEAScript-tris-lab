@@ -2,6 +2,12 @@
 
 # Tri's Lab by FEAScript
 
+[![Play Tri's Lab](https://img.shields.io/badge/Play-lab.feascript.com-d4aa00)](https://lab.feascript.com)
+[![Last Commit](https://img.shields.io/github/last-commit/FEAScript/FEAScript-tris-lab?logo=github)](https://github.com/FEAScript/FEAScript-tris-lab/commits/main)
+[![License](https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-blue?logo=github)](#licensing)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/FEAScript)
+[![Donate on Liberapay](https://img.shields.io/badge/Donate-Liberapay-F6C915?logo=liberapay&logoColor=black)](https://liberapay.com/FEAScript/donate)
+
 Playful, browser-only ways to meet the finite element method. Every result is a real [FEAScript](https://feascript.com) solve.
 
 **Play it at [lab.feascript.com](https://lab.feascript.com).** No install, no account: open `index.html` in a browser, or serve the folder with `python3 -m http.server`.
@@ -38,6 +44,15 @@ Blockly 12 (Apache 2.0) and FEAScript load from CDNs. FEAScript is pinned to a r
 ## Name
 
 The full name is **Tri's Lab by FEAScript**: please use it in titles, headings and posts (search engines ignore the apostrophe, so "Tri's Lab" alone gets mixed up with Tri-Lab, TriLab and Tris Lab). "Tri's Lab" alone is fine once the full name has been used.
+
+## Help Tri's Lab Grow
+
+> 💖 **If Tri's Lab helped you or your students, please consider supporting FEAScript through a donation**. Your support helps fund new games and missions, translations, and the FEAScript solvers behind every result:
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/FEAScript)
+[![Donate on Liberapay](https://img.shields.io/badge/Donate-Liberapay-F6C915?logo=liberapay&logoColor=black)](https://liberapay.com/FEAScript/donate)
+
+> 📨 You can also join the <b>FEAScript mailing list</b> to receive project updates and news: <a href="https://mailchi.mp/e29600955ffe/join-the-mailing-list">Subscribe here</a>
 
 ## Contributing
 
