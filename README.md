@@ -13,11 +13,11 @@ There are two ways to play:
 
 **Play it at [lab.feascript.com](https://lab.feascript.com).** No install, no account.
 
-## Licensing
+## License
 
 Tri's Lab is code, writing and art, and each has its own terms:
 
-| What | Licence |
+| What | License |
 |---|---|
 | Code: everything not listed in the rows below | [MIT](LICENSE) |
 | Writing and art: the story, dialogue and cast (`critical-mesh/js/story.js`), the Field Notes (`critical-mesh/js/codex.js`), the mission texts (`blocks/js/missions.js`), the pixel art (`critical-mesh/js/art.js`, `blocks/js/pixels.js`), the screenshots (`assets/*.png`) and the READMEs | [CC BY 4.0](LICENSE-CONTENT) |
