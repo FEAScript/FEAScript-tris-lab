@@ -1,14 +1,17 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · missions.js
- *  Nine short missions, each about one idea of the finite element
- *  method. Every goal is checked on the real FEAScript result.
- *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
-// ─── Tiny helpers to write starting workspaces ───
+// Nine short missions, each about one idea of the finite element
+// method. Every goal is checked on the real FEAScript result
+
+// Tiny helpers to write starting workspaces
 const B = {
   bar: (len = 1, n = 10, order = "linear") => ({ type: "fem_bar", fields: { LEN: len, N: n, ORDER: order } }),
   plate: (w = 4, h = 2, nx = 8, ny = 4, order = "quadratic") => ({ type: "fem_plate", fields: { W: w, H: h, NX: nx, NY: ny, ORDER: order } }),

@@ -1,12 +1,15 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · pixels.js
- *  Pixel art drawn from character maps: block icons (as SVG data
- *  URIs, so Blockly can show them) and Tri, the mascot robot
- *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Pixel art drawn from character maps: block icons (as SVG data
+// URIs, so Blockly can show them) and Tri, the mascot robot
 
 const PIX = {
   ".": null,
@@ -34,7 +37,7 @@ const PIX = {
   c: "#f0a868",
 };
 
-// ─── Block icons (12 × 12) ───
+// Block icons (12 × 12)
 const ICONS = {
   sim: [
     "....KKKK....",
@@ -291,7 +294,7 @@ function iconUri(name) {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
-// ─── Tri, the robot of Tri's Lab (pixel art) ───
+// Tri, the robot of Tri's Lab (pixel art)
 // Tri's body is the FEAScript logo triangle (same points, same tilt), drawn on a 36 × 35 pixel grid and
 // meshed into 4 × 4-pixel elements. The same drawing is the Tri's Lab logo (assets/tris-lab-icon.svg),
 // the Tri's Lab page hero and the mascot in this app. The hop and the blink are CSS (class "lab-tri").

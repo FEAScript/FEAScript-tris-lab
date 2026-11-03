@@ -1,12 +1,16 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · blocks.js
- *  The pixel renderer, the themes and every block in the toolbox
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
-// ─── Pixel renderer: square corners and stepped notches ───
+// The pixel renderer, the themes and every block in the toolbox
+
+// Pixel renderer: square corners and stepped notches
 class PixelConstants extends Blockly.blockRendering.ConstantProvider {
   constructor() {
     super();
@@ -69,7 +73,7 @@ class PixelRenderer extends Blockly.thrasos.Renderer {
 }
 Blockly.blockRendering.register("pixel", PixelRenderer);
 
-// ─── Themes (light and dark follow the FEAScript website toggle) ───
+// Themes (light and dark follow the FEAScript website toggle)
 const FONT_STYLE = { family: '"Jersey 10", "Roboto Mono", monospace', weight: "400", size: 17 };
 const THEMES = {
   light: Blockly.Theme.defineTheme("femblocks-light", {
@@ -110,7 +114,7 @@ const THEMES = {
   }),
 };
 
-// ─── Block colours (white text on every one) ───
+// Block colours (white text on every one)
 const COL = {
   start: "#6a4bc4",
   shape: "#00875a",
@@ -353,7 +357,7 @@ const TOOLBOX = {
   ],
 };
 
-// ─── What every block means: shown in the physics card ───
+// What every block means: shown in the physics card
 // term: the part of the equation the block controls
 const BLOCK_INFO = {
   fem_sim: {

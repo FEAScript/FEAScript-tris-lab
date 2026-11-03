@@ -1,12 +1,16 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · engineer.js
- *  The player character: walks on the Plate, carries cells, welds
- *  cracks and picks up crates. The FEA temperature field is the
- *  terrain: standing on hot metal heats the suit.
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// The player character: walks on the Plate, carries cells, welds
+// cracks and picks up crates. The FEA temperature field is the
+// terrain: standing on hot metal heats the suit
 
 const KEYS = new Set();
 

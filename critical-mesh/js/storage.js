@@ -1,10 +1,14 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · storage.js
- *  Campaign progress, settings and high scores in localStorage
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Campaign progress, settings and high scores in localStorage
 
 const STORE_KEY = "criticalMesh.v2";
 

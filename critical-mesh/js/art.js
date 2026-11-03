@@ -1,12 +1,15 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · art.js
- *  Original pixel art drawn in code: palette, sprites, pixel fonts
- *  and small drawing helpers
- *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Original pixel art drawn in code: palette, sprites, pixel fonts
+// and small drawing helpers
 
 const PAL = {
   k: "#0e0e12", y: "#d4aa00", Y: "#f7d54a", o: "#8f7200", s: "#e0a77a", S: "#b97a52",
@@ -23,7 +26,7 @@ const ENG_HEAD = ["..kkkk..", ".kqqqqk.", "kqqqqqzk", ".kkkkkkk", ".kssesk.", ".
 const ENG_BODY = ["..kffk..", ".kfccfk.", "kffccffk"];
 
 const SPRITES = {
-  // ─── Portraits (16 × 16) ───
+  // Portraits (16 × 16)
   // Chief Engineer Ella Mentz: gold hard hat, goggles, dark hair, hi-vis jacket
   ella: [
     "....kkkkkkkk....",
@@ -158,14 +161,14 @@ const SPRITES = {
     "...NNNNNNNNNNNN.",
   ],
 
-  // ─── The engineer (8 × 13), facing right ───
+  // The engineer (8 × 13), facing right
   eng0: [...ENG_HEAD, ...ENG_BODY, "kfffffsk", ".kbbbbk.", ".kbkkbk.", ".kk..kk."],
   eng1: [...ENG_HEAD, ...ENG_BODY, "kfffffsk", ".kbbbbk.", "kbk..kbk", "kk....kk"],
   eng2: [...ENG_HEAD, ...ENG_BODY, "ksfffffk", ".kbbbbk.", "..kbbk..", "..kkkk.."],
   engCarry: [...ENG_HEAD, "kskffksk", "kfkcckfk", ".kfccfk.", ".kfffffk", ".kbbbbk.", ".kbkkbk.", ".kk..kk."],
   engCarry1: [...ENG_HEAD, "kskffksk", "kfkcckfk", ".kfccfk.", ".kfffffk", ".kbbbbk.", "kbk..kbk", "kk....kk"],
 
-  // ─── Items ───
+  // Items
   furnace: [
     "..kkkkk..",
     ".kNNNNNk.",
@@ -184,7 +187,7 @@ const SPRITES = {
   hatch: ["kkkkkkkkkkk", "kUuuuuuuuUk", "kuNNNNNNNuk", "kuNkkkkkNuk", "kuNNNNNNNuk", "kUuuuuuuuUk", "kkkkkkkkkkk"],
   spool: ["..kkkkk..", ".kpPPPpk.", "kpPkkkPpk", "kPkpppkPk", "kPkpkpkPk", "kPkpppkPk", "kpPkkkPpk", ".kpPPPpk.", "..kkkkk.."],
 
-  // ─── Tool icons (11 × 11) ───
+  // Tool icons (11 × 11)
   coolant: [
     ".....a.....",
     "...a.A.a...",

@@ -1,9 +1,13 @@
 /*
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · critical-mesh.css
- *  FEAScript website tokens (dark theme) + a small pixel UI kit
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
+
+/* FEAScript website tokens (dark theme) + a small pixel UI kit */
 
 /* ─────────────────────────────────────────────────────────────
    TOKENS (FEAScript website, dark theme)
@@ -1406,7 +1410,7 @@ table.scores tr.me td {
     
 
 /* ─────────────────────────────────────────────────────────────
-   ADDITIONS: engineer HUD, interludes, story extras
+   ADDITIONS: ENGINEER HUD, INTERLUDES, STORY EXTRAS
    ───────────────────────────────────────────────────────────── */
 .hearts {
   display: flex;
@@ -2084,8 +2088,10 @@ details.eq-panel summary .eq-more {
   margin-top: 0;
 }
 
-/* ─── Phones ─── */
-@media (max-width: 720px) {
+/* ─────────────────────────────────────────────────────────────
+   PHONES (upright; sideways phones get their own layout below)
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 720px) and (orientation: portrait), (max-width: 720px) and (min-height: 541px) {
   /* The top bar wraps instead of pushing buttons off-screen */
   .topbar {
     position: static;
@@ -2172,5 +2178,115 @@ details.eq-panel summary .eq-more {
 
   .eq-wrap {
     order: 10;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PHONES HELD SIDEWAYS (short landscape screens)
+   ───────────────────────────────────────────────────────────── */
+/* Board on the left, sized to the screen height; the buttons you press every turn
+   stay pinned on the right, with the readouts scrolling underneath them */
+@media (orientation: landscape) and (max-height: 540px) {
+  .screen {
+    min-height: calc(100vh - 2.5rem);
+  }
+
+  .topbar {
+    position: static;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .fea-logo {
+    font-size: 1.05rem;
+  }
+
+  .brand {
+    gap: 0.5rem;
+  }
+
+  .topbar-right {
+    gap: 0.4rem;
+  }
+
+  .icon-btn {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.45rem;
+    white-space: nowrap;
+  }
+
+  #diffChip {
+    display: none;
+  }
+
+  .game {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+    padding: 0.5rem;
+  }
+
+  .stage {
+    flex: 1 1 auto;
+    gap: 0.5rem;
+  }
+
+  .stage-head .lvl {
+    font-size: 0.95rem;
+  }
+
+  .stage-head .objective {
+    font-size: 0.72rem;
+  }
+
+  .board-wrap {
+    padding: 6px;
+  }
+
+  .msg-bar {
+    min-height: 0;
+    padding: 0.5rem 0.7rem;
+  }
+
+  .msg-bar canvas {
+    width: 32px;
+    height: 32px;
+  }
+
+  #msg {
+    font-size: 0.85rem;
+  }
+
+  .hud {
+    flex: 0 0 clamp(220px, 30vw, 300px);
+    width: auto;
+    position: sticky;
+    top: 0.5rem;
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+    gap: 0.6rem;
+  }
+
+  .hud section {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .hud-actions,
+  #labPanel {
+    order: -2;
+  }
+
+  #toolsPanel {
+    order: -1;
+  }
+
+  #die {
+    width: 48px;
+    height: 48px;
+  }
+
+  .note-toast {
+    top: auto;
+    bottom: 0.5rem;
+    max-width: 45vw;
   }
 }

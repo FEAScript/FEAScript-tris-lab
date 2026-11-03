@@ -2,8 +2,9 @@
 
 <!--
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks: build a finite element simulation with blocks
- *  Part of Tri's Lab by FEAScript | https://feascript.com
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
  *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
 -->
@@ -69,12 +70,24 @@
     <!-- Blockly (Apache 2.0), the visual block editor -->
     <script src="https://cdn.jsdelivr.net/npm/blockly@12.3.1/blockly_compressed.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/blockly@12.3.1/msg/en.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JPK0KLEC9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-1JPK0KLEC9");
+    </script>
   </head>
 
   <body>
     <a class="skip-link" href="#workspace">Skip to the blocks</a>
 
-    <!-- ─── Top bar ─── -->
+    <!-- ───────────── TOP BAR ───────────── -->
     <header class="fb-top">
       <a class="fb-brand" href="https://feascript.com/" title="FEAScript home">
         <svg viewBox="14 79 242 242" aria-hidden="true">
@@ -126,7 +139,7 @@
       </div>
     </header>
 
-    <!-- ─── Mission bar: Tri the robot explains the current mission ─── -->
+    <!-- ───────────── MISSION BAR (Tri the robot explains the current mission) ───────────── -->
     <section class="fb-mission" aria-live="polite">
       <button id="mascot" type="button" aria-label="Tri: click for a joke"></button>
       <div class="fb-bubble">
@@ -146,7 +159,7 @@
       </div>
     </section>
 
-    <!-- ─── Workbench ─── -->
+    <!-- ───────────── WORKBENCH ───────────── -->
     <main class="fb-bench" id="main">
       <section class="fb-ws-wrap" aria-label="Blocks">
         <div id="workspace"></div>

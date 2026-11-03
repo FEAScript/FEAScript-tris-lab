@@ -1,9 +1,13 @@
 /*
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · fem-blocks.css
- *  FEAScript website tokens (light and dark) + a playful pixel kit
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
+
+/* FEAScript website tokens (light and dark) + a playful pixel kit */
 
 :root {
   --font-pixel: "Jersey 10", "Roboto Mono", monospace;
@@ -30,7 +34,9 @@ html.site body {
   image-rendering: crisp-edges;
 }
 
-/* ─── Top bar ─── */
+/* ─────────────────────────────────────────────────────────────
+   TOP BAR
+   ───────────────────────────────────────────────────────────── */
 .fb-top {
   position: sticky;
   top: 0;
@@ -108,7 +114,9 @@ html.site body {
   gap: 0.4rem;
 }
 
-/* ─── Pixel buttons ─── */
+/* ─────────────────────────────────────────────────────────────
+   PIXEL BUTTONS
+   ───────────────────────────────────────────────────────────── */
 .fb-btn {
   font-family: var(--font-pixel);
   font-size: 1.23rem;
@@ -143,7 +151,9 @@ html.site body {
   box-shadow: 1px 1px 0 var(--outline);
 }
 
-/* ─── Mission bar ─── */
+/* ─────────────────────────────────────────────────────────────
+   MISSION BAR
+   ───────────────────────────────────────────────────────────── */
 .fb-mission {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -317,7 +327,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   gap: 0.4rem;
 }
 
-/* ─── Workbench ─── */
+/* ─────────────────────────────────────────────────────────────
+   WORKBENCH
+   ───────────────────────────────────────────────────────────── */
 .fb-bench {
   flex: 1;
   display: grid;
@@ -396,7 +408,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   }
 }
 
-/* ─── Side: results and math ─── */
+/* ─────────────────────────────────────────────────────────────
+   SIDE: RESULTS AND MATH
+   ───────────────────────────────────────────────────────────── */
 .fb-side {
   display: flex;
   flex-direction: column;
@@ -809,7 +823,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   color: var(--gold-ink);
 }
 
-/* ─── Footer and toast ─── */
+/* ─────────────────────────────────────────────────────────────
+   FOOTER AND TOAST
+   ───────────────────────────────────────────────────────────── */
 .fb-foot {
   display: flex;
   flex-wrap: wrap;
@@ -857,7 +873,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   border-left-color: var(--phys-heat);
 }
 
-/* ─── Blockly, made pixel-y ─── */
+/* ─────────────────────────────────────────────────────────────
+   BLOCKLY, MADE PIXEL-Y
+   ───────────────────────────────────────────────────────────── */
 .blocklySvg {
   display: block;
 }
@@ -942,7 +960,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   border-radius: 0 !important;
 }
 
-/* ─── Narrow screens ─── */
+/* ─────────────────────────────────────────────────────────────
+   NARROW SCREENS
+   ───────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
   .fb-bench {
     grid-template-columns: 1fr;
@@ -1111,5 +1131,75 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   50% {
     background: var(--gold) !important;
     color: #1d1d1d !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PHONES HELD SIDEWAYS (short landscape screens)
+   ───────────────────────────────────────────────────────────── */
+/* A slimmer top bar and mission card, and a workspace that fits the screen height,
+   so the whole canvas is visible while you drag blocks */
+@media (orientation: landscape) and (max-height: 540px) {
+  :root {
+    --top-h: 2.8rem;
+  }
+
+  .fb-top {
+    position: static;
+  }
+
+  .fb-title {
+    font-size: 1.5rem;
+  }
+
+  .fb-top-right .fb-btn {
+    padding: 0.2rem 0.5rem;
+  }
+
+  .fb-mission {
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  #mascot {
+    width: 56px;
+    height: 56px;
+  }
+
+  .fb-bubble {
+    min-height: 0;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .fb-bubble::before {
+    top: 18px;
+  }
+
+  .fb-kicker {
+    font-size: 0.85rem;
+  }
+
+  .fb-bubble h1 {
+    font-size: 1.35rem;
+  }
+
+  .fb-bubble p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .fb-mission-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .fb-bench {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .fb-ws-wrap {
+    min-height: 0;
+    height: calc(100vh - 1rem);
   }
 }

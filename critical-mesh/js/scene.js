@@ -1,11 +1,15 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · scene.js
- *  The shift scene (plate, boundary conditions, items, engineer),
- *  particles and the main animation loop
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// The shift scene (plate, boundary conditions, items, engineer),
+// particles and the main animation loop
 
 const particles = [];
 const shimmer = [];
@@ -73,7 +77,7 @@ const Scene = {
     });
   },
 
-  // ─── Boundary conditions drawn as scenery ───
+  // Boundary conditions drawn as scenery
   drawBackdrop(g, now) {
     g.fillStyle = "#121217";
     g.fillRect(0, 0, CW, CH);
@@ -413,7 +417,7 @@ const Scene = {
   },
 };
 
-// ─── Backdrops for the title and story screens: a real FEAScript solution, "breathing" ───
+// Backdrops for the title and story screens: a real FEAScript solution, "breathing"
 let showcaseGrid = null;
 const backdropImg = new Map();
 function animateBackdropCanvas(canvas, now) {
@@ -428,7 +432,7 @@ function animateBackdropCanvas(canvas, now) {
   renderBands(g, backdropImg.get(canvas), grid, PLATE_STENCIL, { palette: HEAT, norm: (T) => (T - T_AMB) / 240, mode: "glow" });
 }
 
-// ─── Main loop ───
+// Main loop
 let lastFrame = performance.now();
 function mainLoop(now) {
   const dt = Math.min(0.05, (now - lastFrame) / 1000);

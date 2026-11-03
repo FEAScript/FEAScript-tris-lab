@@ -1,14 +1,18 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · main.js
- *  Input wiring and boot (loads FEAScript, runs the sanity check)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
+// Input wiring and boot (loads FEAScript, runs the sanity check)
+
 const isActive = (id) => $(id).classList.contains("active");
 
-// ─── Board (shift) ───
+// Board (shift)
 function wireBoard() {
   const board = $("board");
   board.addEventListener("mousemove", (e) => {
@@ -57,7 +61,7 @@ function wireBoard() {
   });
 }
 
-// ─── Interlude canvas ───
+// Interlude canvas
 function wireLab() {
   const lab = $("lab");
   lab.addEventListener("click", (e) => {
@@ -71,7 +75,7 @@ function wireLab() {
 
 }
 
-// ─── Menus ───
+// Menus
 function wireMenus() {
   $("btnCampaign").addEventListener("click", () => {
     Sound.play("click");
@@ -124,7 +128,7 @@ function wireMenus() {
   });
 }
 
-// ─── Keyboard ───
+// Keyboard
 function wireKeys() {
   const MOVE = ["arrowleft", "arrowright", "arrowup", "arrowdown", "w", "a", "s", "d"];
   document.addEventListener("keyup", (e) => KEYS.delete(e.key.toLowerCase()));
@@ -177,7 +181,7 @@ function wireKeys() {
   });
 }
 
-// ─── Boot ───
+// Boot
 function bootLine(line, cls = "") {
   const div = document.createElement("div");
   div.innerHTML = line;

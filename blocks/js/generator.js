@@ -1,11 +1,15 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · generator.js
- *  Reads the blocks, checks them (with friendly messages) and
- *  writes the FEAScript code that Run executes
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Reads the blocks, checks them (with friendly messages) and
+// writes the FEAScript code that Run executes
 
 const EDGE_KEY = {
   "2D": { bottom: "0", left: "1", top: "2", right: "3" },
@@ -22,7 +26,7 @@ const blockPhysics = (type) => (HEAT_ONLY.includes(type) ? "heat" : FLOW_ONLY.in
 // Number → short, readable code
 const n = (v) => String(Math.round(v * 1e6) / 1e6);
 
-// ─── Blocks → a plain description of the simulation ───
+// Blocks → a plain description of the simulation
 function readWorkspace(ws) {
   const problems = []; // { level: "error" | "warn", text, block }
   const hats = ws.getTopBlocks(true).filter((b) => b.type === "fem_sim" && b.isEnabled());
@@ -122,7 +126,7 @@ function readWorkspace(ws) {
     b = b.getNextBlock();
   }
 
-  // ─── Checks, in the order a kid would fix them ───
+  // Checks, in the order a kid would fix them
   const err = (text, block) => problems.push({ level: "error", text, block });
   const warn = (text, block) => problems.push({ level: "warn", text, block });
   const S = spec.shape;
@@ -162,7 +166,7 @@ function readWorkspace(ws) {
   return { spec, problems };
 }
 
-// ─── Description → FEAScript code ───
+// Description → FEAScript code
 // Every line remembers which blocks wrote it, so the Code tab can light up a selected block's lines
 function buildCode(spec) {
   if (!spec || !spec.shape) return { lines: ["// Put a NEW SIMULATION block with a shape on the workspace to see its code here."], owners: [[]] };

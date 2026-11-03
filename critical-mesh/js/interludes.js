@@ -1,13 +1,17 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · interludes.js
- *  Three engineering interludes, each solved by another FEAScript model:
- *    The Gantry  · eulerBernoulliBeamScript  (prop a catwalk, walk across)
- *    Cold Pour   · frontPropagationScript    (make the riser freeze last)
- *    Pump Room   · creepingFlowScript        (drive the walls, flush the clogs)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Three engineering interludes, each solved by another FEAScript model:
+//   The Gantry  · eulerBernoulliBeamScript  (prop a catwalk, walk across)
+//   Cold Pour   · frontPropagationScript    (make the riser freeze last)
+//   Pump Room   · creepingFlowScript        (drive the walls, flush the clogs)
 
 const Lab = {
   current: null,
@@ -79,9 +83,7 @@ function labCoords(evt) {
   return { px: ((evt.clientX - rect.left) / rect.width) * CW, py: ((evt.clientY - rect.top) / rect.height) * CH };
 }
 
-// ════════════════════════════════════════════════════════════════
-//  THE GANTRY · Euler-Bernoulli beam
-// ════════════════════════════════════════════════════════════════
+// The Gantry (Euler-Bernoulli beam)
 
 const Gantry = {
   L: 4,
@@ -467,9 +469,7 @@ const Gantry = {
   },
 };
 
-// ════════════════════════════════════════════════════════════════
-//  COLD POUR · eikonal solidification front
-// ════════════════════════════════════════════════════════════════
+// Cold Pour (eikonal solidification front)
 
 const Pour = {
   nx: 16,
@@ -677,9 +677,7 @@ const Pour = {
   },
 };
 
-// ════════════════════════════════════════════════════════════════
-//  PUMP ROOM · Stokes flow
-// ════════════════════════════════════════════════════════════════
+// Pump Room (Stokes flow)
 
 const Pump = {
   nx: 12,

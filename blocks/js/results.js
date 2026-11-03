@@ -1,12 +1,16 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · results.js
- *  Paints FEAScript's nodal solution as pixel art: heat maps for
- *  plates, a coloured bar and a graph for bars, and a speed map
- *  with drifting tracer particles for flow
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Paints FEAScript's nodal solution as pixel art: heat maps for
+// plates, a coloured bar and a graph for bars, and a speed map
+// with drifting tracer particles for flow
 
 const HEAT_PAL = ["#2b2d6e", "#3a4fa8", "#3a7fd0", "#3bb0d8", "#5fd0c0", "#a6e08a", "#f2e05a", "#f8b13a", "#f27a24", "#e04a2b", "#b81d3f", "#fff1c9"];
 const FLOW_PAL = ["#14183a", "#1d2a63", "#223f8f", "#2457b5", "#2a72cf", "#3a8fe0", "#55aaea", "#74c2f0", "#98d7f5", "#bde8f8", "#def5fb", "#ffffff"];
@@ -150,7 +154,7 @@ const Results = {
     $("summary").innerHTML = "";
   },
 
-  // ─── Layout: a low-resolution field image, drawn at an integer scale ───
+  // Layout: a low-resolution field image, drawn at an integer scale
   layout() {
     const r = this.res;
     const avail = Math.max(240, $("canvasWrap").clientWidth - 8);
@@ -624,7 +628,7 @@ const Results = {
   },
 };
 
-// ─── "How it's solved": the four steps of the finite element method, with this run's numbers ───
+// "How it's solved": the four steps of the finite element method, with this run's numbers
 function femExplainHtml(res) {
   if (!res) return `<p class="fb-pane-note">Run a simulation, and this part shows how FEAScript solved it, step by step.</p>`;
   const S = res.spec.shape;

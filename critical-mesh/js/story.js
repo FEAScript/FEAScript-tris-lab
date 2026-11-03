@@ -1,14 +1,17 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · story.js
- *  Cast, campaign (10 shifts + 3 engineering interludes) and dialogue
- *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
- *
- *  A dialogue line is [speaker, text] or [speaker, text, condition(flags)].
- *  "{target}" in a line is replaced by the shift's quota.
  */
 "use strict";
+
+// Cast, campaign (10 shifts + 3 engineering interludes) and dialogue
+//
+// A dialogue line is [speaker, text] or [speaker, text, condition(flags)].
+// "{target}" in a line is replaced by the shift's quota
 
 const SPEAKERS = {
   ella: { name: "ELLA MENTZ", role: "Chief Engineer", sprite: "ella", cls: "" },
@@ -29,7 +32,7 @@ const PHYSICS = {
 };
 
 const CAMPAIGN = [
-  // ───────────────────────────── 1
+  // Step 1
   {
     type: "shift",
     title: "Cold Start",
@@ -56,7 +59,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "Not bad for a first night. The Plate is still in one piece, and so are you."],
   },
-  // ───────────────────────────── 2
+  // Step 2
   {
     type: "shift",
     title: "Hot Feet",
@@ -80,7 +83,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "Boots still on, Plate still solid. You're getting the rhythm."],
   },
-  // ───────────────────────────── 3
+  // Step 3
   {
     type: "shift",
     title: "The Cold Floor",
@@ -101,7 +104,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "You're learning to read the heat. That's the whole job, really."],
   },
-  // ───────────────────────────── 4
+  // Step 4
   {
     type: "shift",
     title: "Fatigue",
@@ -121,7 +124,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "Cracks every third mount... Twenty years on this Plate and it never fatigued that fast. Odd."],
   },
-  // ───────────────────────────── 5
+  // Step 5
   {
     type: "shift",
     title: "The Welder",
@@ -138,7 +141,7 @@ const CAMPAIGN = [
     ],
     win: ["mesh", "NOTE: TONIGHT'S FATIGUE EVENTS DO NOT MATCH ANY KNOWN WEAR MODEL. LOGGING FOR LATER ANALYSIS."],
   },
-  // ───────────────────────────── 6 · interlude: beam
+  // Step 6: interlude (beam)
   {
     type: "gantry",
     physics: "structure",
@@ -155,7 +158,7 @@ const CAMPAIGN = [
       ["ella", "Hint from an old engineer: the obvious spots aren't the best ones. Simulate first."],
     ],
   },
-  // ───────────────────────────── 7
+  // Step 7
   {
     type: "shift",
     title: "Copper Veins",
@@ -174,7 +177,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "Di Verge came down to the floor today. He never comes to the floor. He stood by the control terminal for an hour."],
   },
-  // ───────────────────────────── 8
+  // Step 8
   {
     type: "shift",
     title: "Run the Numbers",
@@ -192,7 +195,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "Rookie... MESH sent me its fatigue log. The cracks aren't random. Someone is writing them into the Plate's control firmware. Keep this between us."],
   },
-  // ───────────────────────────── 9 · interlude: front propagation
+  // Step 9: interlude (front propagation)
   {
     type: "pour",
     physics: "front",
@@ -206,7 +209,7 @@ const CAMPAIGN = [
       ["mesh", "I CAN SIMULATE THREE POURS BEFORE THE ALLOY COOLS. THEN YOU CAST FOR REAL."],
     ],
   },
-  // ───────────────────────────── 10
+  // Step 10
   {
     type: "shift",
     title: "Alone on the Night Shift",
@@ -230,7 +233,7 @@ const CAMPAIGN = [
     ],
     win: ["mesh", "SHIFT COMPLETE. ELLA SENT A MESSAGE THROUGH MY MAINTENANCE PORT: 'TELL THE ROOKIE I SAW. MEET ME IN THE PUMP ROOM.'"],
   },
-  // ───────────────────────────── 11 · interlude: creeping flow
+  // Step 11: interlude (creeping flow)
   {
     type: "pump",
     physics: "flow",
@@ -247,7 +250,7 @@ const CAMPAIGN = [
       ["ella", "Flush both clogs and I'll get you a spare coolant cartridge for tomorrow. You'll need it."],
     ],
   },
-  // ───────────────────────────── 12
+  // Step 12
   {
     type: "shift",
     title: "Coolant Reserve",
@@ -268,7 +271,7 @@ const CAMPAIGN = [
     ],
     win: ["ella", "We have the logs now. Tomorrow is the festival. Di Verge will try one last time, in front of the whole city."],
   },
-  // ───────────────────────────── 13
+  // Step 13
   {
     type: "shift",
     title: "Critical Mesh",

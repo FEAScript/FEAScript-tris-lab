@@ -1,13 +1,16 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · codex.js
- *  The physics behind the game, taught while you play:
- *    · the live equation panel next to the Plate
- *    · Field Notes: short physics cards unlocked by playing
- *  Code: MIT · Text and pixel art: CC BY 4.0 (see README, Licensing)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// The physics behind the game, taught while you play:
+//   · the live equation panel next to the Plate
+//   · Field Notes: short physics cards unlocked by playing
 
 // Equations are plain text in the UI font. Markup: {k} is a term the panel can light up,
 // {phi|φ} a term with its own label, _{air} a subscript; everything else is plain maths
@@ -36,7 +39,7 @@ function eqHtml(markup, { color = "" } = {}) {
   return `<span class="eq"${color ? ` style="color:${color}"` : ""}>${html}</span>`;
 }
 
-// ─── Field Notes ───
+// Field Notes
 // how: what unlocks the note (shown while it's still locked)
 const NOTES = [
   {
@@ -272,7 +275,7 @@ const Codex = {
     document.querySelectorAll("[data-notes-count]").forEach((el) => (el.textContent = txt));
   },
 
-  // ─── The Field Notes book ───
+  // The Field Notes book
   open(id = null) {
     const unlocked = NOTES.filter((n) => this.has(n.id));
     const current = NOTE_BY_ID[id] && this.has(id) ? id : $("noteToast").dataset.note && this.has($("noteToast").dataset.note) ? $("noteToast").dataset.note : unlocked[0]?.id;
@@ -323,7 +326,7 @@ const Codex = {
       ${locked.length ? `<p class="note-next">Next to find: <i>${locked[0].how}</i></p>` : `<p class="note-next good">Notebook complete. Tri is proud of you.</p>`}`;
   },
 
-  // ─── The live equation panel (shift HUD) ───
+  // The live equation panel (shift HUD)
   // Light up one term of the equation for a moment
   pulse(term, cls = "") {
     document.querySelectorAll(`#eqPanel [data-term="${term}"], #eqPanel [data-edge="${term}"]`).forEach((el) => {

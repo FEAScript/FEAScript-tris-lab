@@ -1,22 +1,26 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  FEM Blocks · app.js
- *  Workspace, missions, the math card, running FEAScript, saving
+ *  FEM Blocks · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
+// Workspace, missions, the math card, running FEAScript, saving
+
 const $ = (id) => document.getElementById(id);
 
 // FEAScript release the missions are built against. Pinned so that a push to FEAScript-core cannot
-// change them; bump it on purpose and replay every mission.
+// change them; bump it on purpose and replay every mission
 const FEASCRIPT_VERSION = "0.3.1";
 const FEASCRIPT_URLS = [
   `https://cdn.jsdelivr.net/npm/feascript@${FEASCRIPT_VERSION}/dist/feascript.esm.js`,
   `https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core@${FEASCRIPT_VERSION}/dist/feascript.esm.js`,
 ];
 
-// ─── Progress, kept in this browser ───
+// Progress, kept in this browser
 const STORE_KEY = "femBlocks.v1";
 const store = (() => {
   const def = { mission: 0, done: {}, saved: {}, sound: true };
@@ -34,7 +38,7 @@ function saveStore() {
   }
 }
 
-// ─── Little sounds (WebAudio, no files) ───
+// Little sounds (WebAudio, no files)
 const Sound = {
   ctx: null,
   tone(freq, dur, { delay = 0, type = "square", vol = 0.04, slide = 0 } = {}) {
@@ -64,7 +68,7 @@ const Sound = {
   },
 };
 
-// ─── Tri, the mascot (click him for a joke) ───
+// Tri, the mascot (click him for a joke)
 const TRI_JOKES = [
   "I'm a triangle, not a tortilla chip. Please stop reaching for the salsa.",
   "Nachos have cheese. I have <b>nodes</b>.",
@@ -117,7 +121,7 @@ function toast(html, cls = "") {
   toast.timer = setTimeout(() => (el.className = "fb-toast"), 4200);
 }
 
-// ─── App state ───
+// App state
 let FEA = null;
 let workspace = null;
 let lastRes = null;
@@ -127,7 +131,7 @@ let mission = linkedMission >= 0 ? linkedMission : Math.min(store.mission, MISSI
 let showingHint = false;
 let probeHistory = [];
 
-// ─── Missions ───
+// Missions
 function renderMissionList() {
   $("missionList").innerHTML = MISSIONS.map(
     (m, i) =>
@@ -190,7 +194,7 @@ function saveWorkspace() {
   saveStore();
 }
 
-// ─── The math card ───
+// The math card
 const MATH = {
   heat: {
     label: "Heat",
@@ -305,7 +309,7 @@ function highlightTerm() {
   });
 }
 
-// ─── Live updates as blocks change ───
+// Live updates as blocks change
 let refreshTimer = null;
 function refresh() {
   clearTimeout(refreshTimer);
@@ -322,7 +326,7 @@ function refresh() {
   }, 120);
 }
 
-// ─── Run ───
+// Run
 async function run() {
   if (!FEA) return;
   const { spec, problems } = readWorkspace(workspace);
@@ -364,6 +368,9 @@ async function run() {
   Results.target = MISSIONS[mission].target || null;
   selectTab("picture");
   Results.show(lastRes);
+  // Stacked layouts (phones) keep the picture below the blocks: bring it into view
+  const pic = $("canvasWrap").getBoundingClientRect();
+  if (pic.top >= window.innerHeight || pic.bottom <= 0) $("canvasWrap").scrollIntoView({ block: "nearest", behavior: "smooth" });
   $("femExplain").innerHTML = femExplainHtml(lastRes);
   drawFemMinis(lastRes);
   checkMission(lastRes, problems);
@@ -408,7 +415,7 @@ function checkMission(res, problems) {
 
 const spec_hasShow = (spec) => !!spec.show;
 
-// ─── Tabs ───
+// Tabs
 function selectTab(name) {
   document.querySelectorAll(".fb-tab").forEach((t) => {
     t.classList.toggle("on", t.dataset.tab === name);
@@ -420,7 +427,7 @@ function selectTab(name) {
   if (name === "picture" && Results.res) Results.draw();
 }
 
-// ─── Save / open ───
+// Save / open
 function saveFile() {
   const data = { app: "FEM Blocks", version: 1, mission: MISSIONS[mission].id, blocks: Blockly.serialization.workspaces.save(workspace) };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -449,7 +456,7 @@ function openFile(file) {
   reader.readAsText(file);
 }
 
-// ─── Theme: follow the FEAScript website toggle ───
+// Theme: follow the FEAScript website toggle
 const isDark = () => document.documentElement.getAttribute("data-theme") === "dark" || (!document.documentElement.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
 function applyTheme() {
   if (!workspace) return;
@@ -457,7 +464,7 @@ function applyTheme() {
   if (lastRes) Results.draw();
 }
 
-// ─── Boot ───
+// Boot
 async function loadFEAScript() {
   for (const url of FEASCRIPT_URLS) {
     try {
@@ -483,7 +490,7 @@ async function boot() {
     renderer: "pixel",
     theme: isDark() ? THEMES.dark : THEMES.light,
     grid: { spacing: 16, length: 2, colour: "rgba(140, 138, 130, 0.35)", snap: true },
-    zoom: { controls: true, wheel: false, startScale: matchMedia("(max-width: 640px)").matches ? 0.75 : 0.9, maxScale: 1.6, minScale: 0.5 },
+    zoom: { controls: true, wheel: false, startScale: matchMedia("(max-width: 640px), (orientation: landscape) and (max-height: 540px)").matches ? 0.75 : 0.9, maxScale: 1.6, minScale: 0.5 },
     move: { scrollbars: true, drag: true, wheel: true },
     trashcan: true,
     sounds: false,

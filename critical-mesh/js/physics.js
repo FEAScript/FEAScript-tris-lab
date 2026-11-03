@@ -1,14 +1,18 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · physics.js
- *  Every simulation in the game is solved by FEAScript:
- *    heatConductionScript      the Plate (every shift)
- *    eulerBernoulliBeamScript  the catwalk (The Gantry)
- *    frontPropagationScript    the casting (Cold Pour)
- *    creepingFlowScript        the coolant manifold (Pump Room)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Every simulation in the game is solved by FEAScript:
+//   heatConductionScript      the Plate (every shift)
+//   eulerBernoulliBeamScript  the catwalk (The Gantry)
+//   frontPropagationScript    the casting (Cold Pour)
+//   creepingFlowScript        the coolant manifold (Pump Room)
 
 let FEA = null; // the FEAScript module
 let feaUrl = "";
@@ -43,7 +47,7 @@ function quad9Shape(xi, eta) {
 }
 
 // Shape-function weights [[node, N], ...] of point (x, y) in a 9-node element, or null if it lies outside.
-// Newton iterations invert the isoparametric map x(ξ, η).
+// Newton iterations invert the isoparametric map x(ξ, η)
 function quad9Weights(el, X, Y, x, y) {
   let xi = 0;
   let eta = 0;
@@ -127,7 +131,7 @@ const Physics = {
     const X = parsedMesh.nodesXCoordinates;
     const Y = parsedMesh.nodesYCoordinates;
     // Every grid point outside the pipe gets the 9 shape-function weights of the element that holds it,
-    // so the picture is the FEM field itself. Gmsh node order, 1-based, read before solve() reorders it.
+    // so the picture is the FEM field itself. Gmsh node order, 1-based, read before solve() reorders it
     const elements = parsedMesh.nodalNumbering.quadElements.map((el) => el.map((n) => n - 1));
     const boxes = elements.map((el) => {
       const xs = el.map((n) => X[n]);
@@ -174,7 +178,7 @@ const Physics = {
     this.bypass = { parsedMesh, map, nodes: X.length, X, Y };
   },
 
-  // ─── Heat conduction on the Plate ───
+  // Heat conduction on the Plate
   // (Re)build the model for a set of boundary conditions; bc.pipe switches to the Gmsh plate
   init(bc = DEFAULT_BC) {
     this.bc = { ...bc };
@@ -243,7 +247,7 @@ const Physics = {
     return { grid, max, maxX: X[maxIdx], maxY: Y[maxIdx], ms, nodes: T.length };
   },
 
-  // ─── Euler-Bernoulli beam: the catwalk ───
+  // Euler-Bernoulli beam: the catwalk
   // Cantilever clamped at x = 0 with bending stiffness EI(x) and self-weight q(x),
   // optional pinned props (1-based node numbers) and a point load at loadNode
   solveBeam({ length, elements, EI, selfWeight, force, props, loadNode }) {
@@ -263,7 +267,7 @@ const Physics = {
     return { w: flatten(result.fields.w), ms };
   },
 
-  // ─── Eikonal front: the casting ───
+  // Eikonal front: the casting
   // chilled[k] = true → mould wall k ("0" bottom, "1" left, "2" top, "3" right) starts the front
   solveFront({ chilled, nx, ny }) {
     const model = new FEA.FEAScriptModel();
@@ -280,7 +284,7 @@ const Physics = {
     return { phi, X, Y, grid: nodalGrid(X, Y, phi, 4, 2, 2 * nx + 1, 2 * ny + 1), ms };
   },
 
-  // ─── Stokes flow: the coolant manifold ───
+  // Stokes flow: the coolant manifold
   // walls[k] = tangential belt speed of wall k ("0" bottom, "1" left, "2" top, "3" right)
   solveFlow({ walls, nx, ny }) {
     const model = new FEA.FEAScriptModel();

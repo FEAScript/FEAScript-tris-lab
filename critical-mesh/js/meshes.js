@@ -1,16 +1,20 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · meshes.js
- *  Gmsh meshes embedded as text, so they load on file:// too
- *  (a fetch() of a local .msh file fails there with a CORS error)
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
- *
- *  MESH_PLATE_BYPASS: meshes/plate-bypass.msh, generated from meshes/plate-bypass.geo
- *  4 m × 2 m plate with a coolant bypass pipe (r = 0.3 m at (1.1, 0.9)),
- *  quadratic quadrilaterals, MSH 4.1 ASCII.
- *  Boundary keys: "0" bottom, "1" left, "2" top, "3" right, "4" pipe.
  */
 "use strict";
+
+// Gmsh meshes embedded as text, so they load on file:// too
+// (a fetch() of a local .msh file fails there with a CORS error)
+//
+// MESH_PLATE_BYPASS: meshes/plate-bypass.msh, generated from meshes/plate-bypass.geo
+// 4 m × 2 m plate with a coolant bypass pipe (r = 0.3 m at (1.1, 0.9)),
+// quadratic quadrilaterals, MSH 4.1 ASCII.
+// Boundary keys: "0" bottom, "1" left, "2" top, "3" right, "4" pipe
 
 const BYPASS_PIPE = { x: 1.1, y: 0.9, r: 0.3 };
 

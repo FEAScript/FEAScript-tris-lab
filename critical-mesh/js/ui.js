@@ -1,12 +1,16 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · ui.js
- *  Screens, HUD, story player, campaign map, modals and end screens
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
-// ─── Screens and layout ───
+// Screens, HUD, story player, campaign map, modals and end screens
+
+// Screens and layout
 function show(screenId) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === screenId));
   // Top bar: back to where you came from (shifts and interludes), and the mesh view (shifts)
@@ -20,8 +24,20 @@ function show(screenId) {
 }
 
 // Integer pixel scaling where possible, so the pixel art stays crisp
+// Phones held sideways get the whole screen height below the board's top, at any scale
+const SHORT_LANDSCAPE = window.matchMedia("(orientation: landscape) and (max-height: 540px)");
+
 function fitCanvas(canvas, wrap) {
-  const avail = wrap.clientWidth - 20;
+  const pad = parseFloat(getComputedStyle(wrap).paddingLeft) * 2;
+  const avail = wrap.clientWidth - pad;
+  if (SHORT_LANDSCAPE.matches) {
+    const top = wrap.getBoundingClientRect().top + window.scrollY;
+    const hAvail = Math.max(160, window.innerHeight - top - pad - 8);
+    const s = Math.min(avail / CW, hAvail / CH);
+    canvas.style.width = `${Math.floor(CW * s)}px`;
+    canvas.style.height = `${Math.floor(CH * s)}px`;
+    return;
+  }
   const hAvail = Math.max(300, window.innerHeight - 300);
   let s = Math.floor(Math.min(avail / CW, hAvail / CH));
   if (s < 2) s = Math.max(1, Math.min(avail / CW, 2));
@@ -63,7 +79,7 @@ function showBanner(text, cls = "", stay = false, id = "banner") {
 
 const clearBanner = (id = "banner") => ($(id).className = "banner");
 
-// ─── HUD ───
+// HUD
 function updateLevelHead() {
   if (G.mode === "campaign") {
     const L = G.level;
@@ -247,7 +263,7 @@ function drawSuitGauge() {
   $("feetT").className = (Engineer.feetT - T_AMB) / (G.limit - T_AMB) > ENGINEER.safeBand ? "hot" : "";
 }
 
-// ─── Modals ───
+// Modals
 function openModal(html, wire = {}) {
   $("modalCard").innerHTML = html;
   $("modalCard").classList.remove("wide");
@@ -297,7 +313,7 @@ function paintModalSprites(starCount = 0) {
   for (let i = 0; i < starCount; i++) setTimeout(() => Sound.play("star"), 300 + i * 300);
 }
 
-// ─── Campaign progress ───
+// Campaign progress
 const shiftNumber = (step) => CAMPAIGN.slice(0, step + 1).filter((s) => s.type === "shift").length;
 
 function completeStep(i, stars) {
@@ -495,7 +511,7 @@ function openHelp() {
   );
 }
 
-// ─── Story player ───
+// Story player
 const Story = {
   lines: [],
   i: 0,
@@ -557,7 +573,7 @@ const Story = {
   },
 };
 
-// ─── Flow between screens ───
+// Flow between screens
 function openTitle() {
   closeModal();
   show("scr-title");

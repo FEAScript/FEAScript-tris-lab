@@ -1,18 +1,22 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · game.js
- *  Shift state and turn logic: roll → carry → mount → solve → check
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
 
-// ─── Small utilities ───
+// Shift state and turn logic: roll → carry → mount → solve → check
+
+// Small utilities
 const $ = (id) => document.getElementById(id);
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const toPx = (x, y) => [Math.round(PX0 + x * PPM), Math.round(PY0 + (PLATE.maxY - y) * PPM)];
 
-// ─── Shift state ───
+// Shift state
 const G = {
   mode: "arcade", // "campaign" | "arcade"
   step: 0, // campaign step index
@@ -120,7 +124,7 @@ function anyMountSpot() {
 const turnsToMutation = () => (G.mutateEvery ? G.mutateEvery - (G.turn % G.mutateEvery) : Infinity);
 
 const Game = {
-  // ─── Setup ───
+  // Setup
   setup(mode, step = 0) {
     const diff = DIFFICULTY[store.settings.difficulty];
     const L = mode === "campaign" ? CAMPAIGN[step] : null;
@@ -188,7 +192,7 @@ const Game = {
     G.peakT = G.maxT;
   },
 
-  // ─── One FEAScript solve of the Plate ───
+  // One FEAScript solve of the Plate
   solve(label, { animate = true } = {}) {
     let r;
     try {
@@ -243,7 +247,7 @@ const Game = {
     return best;
   },
 
-  // ─── Rolling ───
+  // Rolling
   roll() {
     if (G.phase !== "idle") return;
     if (!anyMountSpot()) {
@@ -290,7 +294,7 @@ const Game = {
     });
   },
 
-  // ─── The engineer's action key (SPACE / E) ───
+  // The engineer's action key (SPACE / E)
   action() {
     if (G.phase === "over" || G.phase === "rolling") return;
     const { x, y } = Engineer;
@@ -331,7 +335,7 @@ const Game = {
     }
   },
 
-  // ─── Mounting a cell: the main turn ───
+  // Mounting a cell: the main turn
   mount(x, y) {
     if (G.phase !== "carrying" || G.carrying == null) return;
     [x, y] = snapMount(x, y);
@@ -440,7 +444,7 @@ const Game = {
     return G.starsAt.filter((s) => out >= s).length;
   },
 
-  // ─── Crates ───
+  // Crates
   tickCrates() {
     const expired = G.crates.filter((c) => G.turn >= c.expires);
     for (const c of expired) burst(...toPx(c.x, c.y), 8, ["#8a5a32", "#b07a46"], 0.5);
@@ -478,7 +482,7 @@ const Game = {
     }
   },
 
-  // ─── Suit and hearts ───
+  // Suit and hearts
   suitOverheat() {
     Engineer.hearts--;
     Engineer.suit = 0;
@@ -512,7 +516,7 @@ const Game = {
     setTimeout(() => (G.mode === "campaign" ? endShiftFail() : endArcade(false)), 1600);
   },
 
-  // ─── Tools ───
+  // Tools
   arm(name) {
     if (!(G.tools[name] > 0) || G.phase === "over" || G.phase === "rolling") return;
     if (name === "coolant") return this.useCoolant();
@@ -654,7 +658,7 @@ const Game = {
     updateHUD();
   },
 
-  // ─── Endings ───
+  // Endings
   bank() {
     if (G.phase !== "idle") return;
     if (G.mode === "campaign" && output() < G.target) return;

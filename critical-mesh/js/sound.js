@@ -1,10 +1,14 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · sound.js
- *  Tiny WebAudio synth: every sound effect is generated, no files
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Tiny WebAudio synth: every sound effect is generated, no files
 
 const Sound = {
   ctx: null,

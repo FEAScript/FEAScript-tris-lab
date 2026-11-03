@@ -1,16 +1,21 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · build-meshes.mjs
- *  Copies the .msh files into js/meshes.js, so the embedded text
- *  (needed for file://) cannot drift from the meshes in this folder
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
- *
- *  node meshes/build-meshes.mjs          rewrite js/meshes.js
- *  node meshes/build-meshes.mjs --check  exit 1 if js/meshes.js is out of date
- *
- *  Only the text inside each `const NAME = \`...\`;` literal is replaced;
- *  the header and the other constants in js/meshes.js stay as written.
  */
+
+// Copies the .msh files into js/meshes.js, so the embedded text
+// (needed for file://) cannot drift from the meshes in this folder
+//
+// node meshes/build-meshes.mjs          rewrite js/meshes.js
+// node meshes/build-meshes.mjs --check  exit 1 if js/meshes.js is out of date
+//
+// Only the text inside each `const NAME = \`...\`;` literal is replaced;
+// the header and the other constants in js/meshes.js stay as written
+
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";

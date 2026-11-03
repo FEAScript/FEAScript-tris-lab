@@ -2,14 +2,14 @@
 
 <!--
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh: a pixel-art heat-conduction game
- *  Powered by FEAScript | https://feascript.com
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
  *  MIT License © 2026 FEAScript (writing and art: CC BY 4.0, see README)
  * ════════════════════════════════════════════════════════════════
- *
- *  Plain JavaScript, no build step. Open this file directly (file://)
- *  or serve the folder. See README.md for the file layout.
 -->
+
+<!-- Plain JavaScript, no build step. Open this file directly (file://) or serve the folder. See README.md for the file layout. -->
 
 <html lang="en">
   <head>
@@ -50,10 +50,22 @@
       rel="stylesheet"
     />
     <link href="css/critical-mesh.css" rel="stylesheet" type="text/css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JPK0KLEC9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-1JPK0KLEC9");
+    </script>
   </head>
 
   <body>
-    <!-- ─── Top bar ─── -->
+    <!-- ───────────── TOP BAR ───────────── -->
     <header class="topbar">
       <div class="brand">
         <a class="fea-logo" href="https://feascript.com/" aria-label="FEAScript" title="FEAScript home">
@@ -79,7 +91,7 @@
       </div>
     </header>
 
-    <!-- ─── Title screen ─── -->
+    <!-- ───────────── TITLE SCREEN ───────────── -->
     <section id="scr-title" class="screen active">
       <canvas id="titleBg" class="px" width="160" height="80"></canvas>
       <div class="title-vignette"></div>
@@ -128,7 +140,7 @@
       </div>
     </section>
 
-    <!-- ─── Campaign map ─── -->
+    <!-- ───────────── CAMPAIGN MAP ───────────── -->
     <section id="scr-map" class="screen">
       <div class="map-wrap">
         <div class="map-head">
@@ -148,7 +160,7 @@
       </div>
     </section>
 
-    <!-- ─── Story / dialogue ─── -->
+    <!-- ───────────── STORY / DIALOGUE ───────────── -->
     <section id="scr-story" class="screen">
       <canvas id="storyBg" class="px" width="160" height="80"></canvas>
       <div class="story-chapter">
@@ -166,7 +178,7 @@
       </div>
     </section>
 
-    <!-- ─── Shift (heat conduction) ─── -->
+    <!-- ───────────── SHIFT (heat conduction) ───────────── -->
     <section id="scr-game" class="screen">
       <div class="game">
         <div class="stage">
@@ -259,7 +271,7 @@
       </div>
     </section>
 
-    <!-- ─── Interlude (beam, front propagation, creeping flow) ─── -->
+    <!-- ───────────── INTERLUDE (beam, front propagation, creeping flow) ───────────── -->
     <section id="scr-lab" class="screen">
       <div class="game">
         <div class="stage">
@@ -289,10 +301,10 @@
       </div>
     </section>
 
-    <!-- ─── Field Note toast ─── -->
+    <!-- ───────────── FIELD NOTE TOAST ───────────── -->
     <button class="note-toast px-panel" id="noteToast" type="button"></button>
 
-    <!-- ─── Modal ─── -->
+    <!-- ───────────── MODAL ───────────── -->
     <div class="modal" id="modal" role="dialog" aria-modal="true">
       <div class="modal-card px-panel" id="modalCard"></div>
     </div>

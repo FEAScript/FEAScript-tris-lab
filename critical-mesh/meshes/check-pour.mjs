@@ -1,18 +1,23 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · check-pour.mjs
- *  Solves every Cold Pour chill setup (up to three chilled walls)
- *  on a Gmsh mould and reports which ones FEAScript can't converge
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
- *
- *  node check-pour.mjs <feascript.esm.mjs> <mould.msh>
- *
- *  The FEAScript ES module build needs an .mjs name for Node, e.g.
- *  copy dist/feascript.esm.js to feascript.mjs. Every physical line of
- *  the mesh is a wall (FEAScript boundary key = physical tag − 1).
- *  A setup is usable when it converges; the last metal to freeze is
- *  where φ is within 0.04 of its maximum, as in the game.
  */
+
+// Solves every Cold Pour chill setup (up to three chilled walls)
+// on a Gmsh mould and reports which ones FEAScript can't converge
+//
+// node check-pour.mjs <feascript.esm.mjs> <mould.msh>
+//
+// The FEAScript ES module build needs an .mjs name for Node, e.g.
+// copy dist/feascript.esm.js to feascript.mjs. Every physical line of
+// the mesh is a wall (FEAScript boundary key = physical tag − 1).
+// A setup is usable when it converges; the last metal to freeze is
+// where φ is within 0.04 of its maximum, as in the game
+
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";

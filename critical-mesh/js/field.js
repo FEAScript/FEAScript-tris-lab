@@ -1,11 +1,15 @@
 /**
  * ════════════════════════════════════════════════════════════════
- *  Critical Mesh · field.js
- *  Turns FEAScript nodal solutions into pixel art: banded filled
- *  contours with isolines, or a Bayer-dithered "glow"
+ *  Critical Mesh · Tri's Lab by FEAScript
+ *  Finite Element Simulation in JavaScript
+ *  https://lab.feascript.com
+ *  MIT License © 2026 FEAScript
  * ════════════════════════════════════════════════════════════════
  */
 "use strict";
+
+// Turns FEAScript nodal solutions into pixel art: banded filled
+// contours with isolines, or a Bayer-dithered "glow"
 
 // Precomputed bilinear stencil from an (ni × nj) nodal grid to a (pw × ph) pixel image
 function makeStencil(ni, nj, maxX, maxY, pw, ph) {
