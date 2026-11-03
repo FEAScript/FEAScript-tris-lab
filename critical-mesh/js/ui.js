@@ -756,7 +756,7 @@ function playEnding() {
          A heat-conduction game powered by FEAScript<br />
          Physics: <b>FEAScript</b> ${FEA.printVersion}, finite element simulation in JavaScript<br />
          Heat conduction · beam bending · front propagation · creeping flow<br />
-         © 2023–2026 FEAScript<br />
+         © 2026 FEAScript<br />
          −∇·(k ∇T) = Q
        </div>
        <div class="modal-actions">
