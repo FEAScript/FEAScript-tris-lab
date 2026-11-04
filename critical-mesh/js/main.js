@@ -135,7 +135,14 @@ function wireKeys() {
   window.addEventListener("blur", () => KEYS.clear());
   document.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT") {
-      if (e.key === "Enter") $("modalCard").querySelector(".px-btn")?.click();
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      // A closed modal keeps its old HTML (e.g. START SHIFT), so only forward Enter from inputs inside it
+      if (e.target.closest("#modalCard")) $("modalCard").querySelector(".px-btn")?.click();
+      else if (e.target.id === "mx" || e.target.id === "my") {
+        e.target.blur(); // dismiss the mobile keyboard
+        $("placeBtn").click();
+      }
       return;
     }
     const k = e.key.toLowerCase();
