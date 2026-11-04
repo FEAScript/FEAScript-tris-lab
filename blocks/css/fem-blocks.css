@@ -873,6 +873,74 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   border-left-color: var(--phys-heat);
 }
 
+/* Pixel dialog (replaces the browser's confirm/alert/prompt) */
+.fb-dialog {
+  width: min(440px, 92vw);
+  padding: 1rem 1.1rem 1.1rem;
+  color: var(--ink);
+  background: var(--card);
+  border: 3px solid var(--outline);
+  border-top: 10px solid var(--gold);
+  box-shadow: 6px 6px 0 var(--outline);
+}
+
+.fb-dialog[open] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+  animation: fb-dialog-in 0.2s steps(3);
+}
+
+.fb-dialog::backdrop {
+  background: rgba(20, 20, 24, 0.45);
+}
+
+.fb-dialog-tri {
+  width: 64px;
+  height: 64px;
+}
+
+.fb-dialog-tri svg {
+  width: 100%;
+  height: 100%;
+}
+
+.fb-dialog-msg {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.fb-dialog-input {
+  grid-column: 1 / -1;
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 2px solid var(--outline);
+}
+
+.fb-dialog-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+}
+
+@keyframes fb-dialog-in {
+  from {
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fb-dialog[open] {
+    animation: none;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────
    BLOCKLY, MADE PIXEL-Y
    ───────────────────────────────────────────────────────────── */

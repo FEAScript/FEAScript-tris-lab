@@ -222,6 +222,15 @@
     </footer>
 
     <div class="fb-toast" id="toast" role="status"></div>
+    <dialog class="fb-dialog" id="dialog" aria-labelledby="dialogMsg">
+      <div class="fb-dialog-tri" id="dialogTri" aria-hidden="true"></div>
+      <p class="fb-dialog-msg" id="dialogMsg"></p>
+      <input class="fb-dialog-input" id="dialogInput" type="text" hidden />
+      <div class="fb-dialog-actions">
+        <button class="fb-btn ghost" id="dialogCancel" type="button">Cancel</button>
+        <button class="fb-btn" id="dialogOk" type="button">OK</button>
+      </div>
+    </dialog>
     <input type="file" id="fileInput" accept=".json,application/json" hidden />
 
     <!-- Plain classic scripts (they also work on file://); FEAScript is loaded by app.js -->

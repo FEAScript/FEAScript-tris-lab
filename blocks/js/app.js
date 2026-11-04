@@ -121,6 +121,37 @@ function toast(html, cls = "") {
   toast.timer = setTimeout(() => (el.className = "fb-toast"), 4200);
 }
 
+// Pixel dialog in place of the browser's alert/confirm/prompt. Resolves to true/false, or the typed text
+function ask(message, { ok = "OK", cancel = "Cancel", input = null } = {}) {
+  return new Promise((resolve) => {
+    const dlg = $("dialog");
+    const field = $("dialogInput");
+    $("dialogTri").innerHTML = triSvg("think").replace("<svg ", '<svg class="lab-tri" ');
+    $("dialogMsg").textContent = message;
+    $("dialogOk").textContent = ok;
+    $("dialogCancel").textContent = cancel;
+    $("dialogCancel").hidden = cancel === null;
+    field.hidden = input === null;
+    field.value = input ?? "";
+    const done = (value) => {
+      dlg.onclose = null;
+      dlg.close();
+      resolve(value);
+    };
+    $("dialogOk").onclick = () => done(input === null ? true : field.value);
+    $("dialogCancel").onclick = () => done(input === null ? false : null);
+    field.onkeydown = (e) => e.key === "Enter" && (e.preventDefault(), $("dialogOk").click());
+    dlg.onclose = () => resolve(input === null ? false : null); // Esc
+    dlg.showModal();
+    (input === null ? $("dialogOk") : field).focus();
+  });
+}
+
+// Blockly's own dialogs (e.g. "Delete all blocks?") use the same look
+Blockly.dialog.setAlert((msg, cb) => ask(msg, { cancel: null }).then(() => cb && cb()));
+Blockly.dialog.setConfirm((msg, cb) => ask(msg).then(cb));
+Blockly.dialog.setPrompt((msg, def, cb) => ask(msg, { input: def ?? "" }).then(cb));
+
 // App state
 let FEA = null;
 let workspace = null;
@@ -519,8 +550,9 @@ async function boot() {
     renderMissionText();
     Tri.set(showingHint ? "think" : "idle", 3000);
   });
-  $("btnReset").addEventListener("click", () => {
-    if (confirm("Put the starting blocks of this mission back? Your changes to it will be lost.")) openMission(mission, { fresh: true });
+  $("btnReset").addEventListener("click", async () => {
+    if (await ask("Put the starting blocks of this mission back? Your changes to it will be lost.", { ok: "↺ Start over" }))
+      openMission(mission, { fresh: true });
   });
   $("btnSave").addEventListener("click", saveFile);
   $("btnOpen").addEventListener("click", () => $("fileInput").click());
