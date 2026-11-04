@@ -880,6 +880,11 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   display: block;
 }
 
+/* Blockly hides scrollbars with display="none"; the site's svg { display: block } would override it */
+.injectionDiv svg[display="none"] {
+  display: none;
+}
+
 .blocklyPath {
   stroke: var(--outline) !important;
   stroke-width: 2.5px !important;
