@@ -695,11 +695,13 @@ const Game = {
   update(dt) {
     if ($("modal").classList.contains("open")) return; // reading a note or a briefing pauses the shift
     Engineer.update(dt);
-    // "Mount at" follows your boots, unless you are typing in it
+    // "Mount at" follows your boots, unless you are typing in it or have typed and not pressed GO yet
+    // (on phones the field loses focus a few frames before the GO tap lands)
     for (const [id, v] of [["mx", Engineer.x], ["my", Engineer.y]]) {
       const el = $(id);
+      if (Engineer.moving) delete el.dataset.typed;
       const shown = showLen(v);
-      if (document.activeElement !== el && el.value !== shown) el.value = shown;
+      if (document.activeElement !== el && !el.dataset.typed && el.value !== shown) el.value = shown;
     }
     if (G.phase !== "over") {
       this.pickCrates();

@@ -28,10 +28,15 @@ function wireBoard() {
   $("rollBtn").addEventListener("click", () => Game.roll());
   $("bankBtn").addEventListener("click", () => Game.bank());
   $("restartBtn").addEventListener("click", restart);
+  for (const id of ["mx", "my"]) $(id).addEventListener("input", (e) => (e.target.dataset.typed = "1"));
+  // Typed coordinates act like a tap on the board: walk there, or mount if carrying a cell
   $("placeBtn").addEventListener("click", () => {
-    if (G.carrying == null) return;
-    const [x, y] = snapMount(parseFloat($("mx").value) / SCALE, parseFloat($("my").value) / SCALE); // inputs are in metres
-    Engineer.walkTo(x, y, "mount");
+    const x = parseFloat($("mx").value);
+    const y = parseFloat($("my").value);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return message("Type a number for both x and y.");
+    delete $("mx").dataset.typed;
+    delete $("my").dataset.typed;
+    Game.boardClick(x / SCALE, y / SCALE); // inputs are in metres
   });
   $("meshBtn").addEventListener("click", () => {
     store.settings.mesh = !store.settings.mesh;

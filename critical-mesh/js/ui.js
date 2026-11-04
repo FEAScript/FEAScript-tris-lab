@@ -24,8 +24,8 @@ function show(screenId) {
 }
 
 // Integer pixel scaling where possible, so the pixel art stays crisp
-// Phones held sideways get the whole screen height below the board's top, at any scale
-const SHORT_LANDSCAPE = window.matchMedia("(orientation: landscape) and (max-height: 540px)");
+// Phones and foldables held sideways get the whole screen height below the board's top, at any scale
+const SHORT_LANDSCAPE = window.matchMedia("(orientation: landscape) and (max-height: 540px), (orientation: landscape) and (max-width: 1100px)");
 
 function fitCanvas(canvas, wrap) {
   const pad = parseFloat(getComputedStyle(wrap).paddingLeft) * 2;
@@ -178,7 +178,7 @@ function updateHUD() {
   const bankBtn = $("bankBtn");
   bankBtn.innerHTML = campaign ? "DELIVER <kbd>B</kbd>" : "BANK <kbd>B</kbd>";
   bankBtn.disabled = G.phase !== "idle" || (campaign ? output() < G.target : G.placed === 0);
-  $("placeBtn").disabled = G.phase !== "carrying";
+  $("placeBtn").disabled = busy;
   $("restartBtn").disabled = G.phase === "rolling";
 
   document.querySelectorAll(".tool").forEach((btn) => {
