@@ -301,9 +301,11 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   box-shadow: inset 0 4px 0 var(--phys);
 }
 
+/* Maths as usually set: variables in italic, matrices and vectors in bold italic, and numbers, operators and words
+   upright */
 .lab-eq {
   font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
-  font-style: italic;
+  font-style: normal;
   font-size: 1.6rem;
   color: color-mix(in srgb, var(--phys) 75%, var(--ink));
 }
