@@ -13,6 +13,10 @@ There are two ways to play:
 
 **Play it at [lab.feascript.com](https://lab.feascript.com).** No install, no account.
 
+## Sitemap
+
+`python3 scripts/update-sitemap.py` sets each `<lastmod>` in `sitemap.xml` to the date the page last changed in git (today, if it has uncommitted changes). The pre-commit hook in `.githooks/` runs it on every commit (the prepare-commit-msg hook there adds the `Signed-off-by` trailer); enable them once per clone with `git config core.hooksPath .githooks`. When you add a page that should be indexed, add its `<url>` entry by hand; pages with `noindex` stay out.
+
 ## License
 
 Tri's Lab is code, writing and art, and each has its own terms:
