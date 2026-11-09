@@ -10,6 +10,13 @@
 
 // Screens, HUD, story player, campaign map, modals and end screens
 
+// Play events for Google Analytics. A no-op when the tag is blocked, and never breaks the game
+function track(name, params = {}) {
+  try {
+    if (typeof gtag === "function") gtag("event", name, { game: "critical_mesh", ...params });
+  } catch {}
+}
+
 // Screens and layout
 function show(screenId) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === screenId));
@@ -321,6 +328,8 @@ function completeStep(i, stars) {
   store.unlocked = Math.max(store.unlocked, Math.min(CAMPAIGN.length, i + 2));
   if (i === CAMPAIGN.length - 1) store.finished = true;
   saveStore();
+  track("cm_step_complete", { step: i + 1, step_type: CAMPAIGN[i].type, stars });
+  if (i === CAMPAIGN.length - 1) track("cm_campaign_finished");
 }
 
 function endShiftWin() {
@@ -368,6 +377,7 @@ function endShiftFail() {
   const evac = G.endReason === "evacuated";
   const pool = evac ? EVAC_QUOTES : MELTDOWN_QUOTES;
   const [who, text] = pool[Math.floor(Math.random() * pool.length)];
+  track("cm_step_fail", { step: G.step + 1, reason: G.endReason || "meltdown" });
   openModal(
     `<h2 class="heat">${evac ? "EVACUATED" : "MELTDOWN"}</h2>
      <p>${evac ? "Your suit gave out and you were carried off the Plate." : `The Plate passed <b>${G.limit} °C</b>.`} Shift lost with <b>${output()} MW</b> of ${G.target} MW delivered.</p>
@@ -395,6 +405,7 @@ function endArcade(banked) {
   const diffKey = store.settings.difficulty;
   const score = banked ? G.placed : 0;
   const list = store.scores[diffKey];
+  track("cm_arcade_end", { difficulty: diffKey, score });
   const qualifies = banked && score > 0 && (list.length < 10 || score > list[list.length - 1].score);
   const lost = G.endReason === "evacuated" ? "Your suit gave out." : `The Plate passed <b>${G.limit} °C</b> after ${G.placed} cells.`;
   const head = banked
@@ -679,6 +690,7 @@ function startStep(i, { skipStory = false } = {}) {
   const step = CAMPAIGN[i];
   if (!step) return playEnding();
   G.step = i;
+  track("cm_step_start", { step: i + 1, step_type: step.type, retry: skipStory });
   if (step.type !== "shift") {
     const phys = PHYSICS[step.physics];
     const go = () => Lab.start(i, () => startStep(i + 1));
@@ -796,6 +808,7 @@ function playEnding() {
 function startArcade() {
   closeModal();
   Game.setup("arcade");
+  track("cm_arcade_start", { difficulty: store.settings.difficulty });
   show("scr-game");
   clearBanner();
   showBanner("ENDLESS SHIFT", "flow");

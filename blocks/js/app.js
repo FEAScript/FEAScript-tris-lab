@@ -12,6 +12,13 @@
 
 const $ = (id) => document.getElementById(id);
 
+// Play events for Google Analytics. A no-op when the tag is blocked, and never breaks the app
+function track(name, params = {}) {
+  try {
+    if (typeof gtag === "function") gtag("event", name, { game: "fem_blocks", ...params });
+  } catch {}
+}
+
 // FEAScript release the missions are built against. Pinned so that a push to FEAScript-core cannot
 // change them; bump it on purpose and replay every mission
 const FEASCRIPT_VERSION = "0.3.1";
@@ -362,7 +369,9 @@ async function run() {
   if (!FEA) return;
   const { spec, problems } = readWorkspace(workspace);
   const errors = problems.filter((p) => p.level === "error");
+  const missionId = MISSIONS[mission].id;
   if (errors.length) {
+    track("fb_run", { mission: missionId, outcome: "invalid" });
     Tri.set("oops");
     Sound.play("oops");
     toast(`<b>Not yet!</b> ${errors[0].text}`, "bad");
@@ -383,6 +392,7 @@ async function run() {
     result = fn(FEA.FEAScriptModel).result;
   } catch (e) {
     console.error(e);
+    track("fb_run", { mission: missionId, outcome: "solver_error" });
     Tri.set("oops");
     Sound.play("oops");
     toast(`<b>The solver got stuck:</b> ${e.message}. Try fewer pieces or different numbers.`, "bad");
@@ -392,6 +402,7 @@ async function run() {
   }
   const ms = performance.now() - t0;
   console.log(`[FEM Blocks] FEAScript solve: ${ms.toFixed(1)} ms`);
+  track("fb_run", { mission: missionId, outcome: "solved" });
   $("btnRun").classList.remove("busy");
   $("runLabel").textContent = "Run";
 
@@ -415,6 +426,7 @@ function checkMission(res, problems) {
   if (m.check && m.check(res)) {
     const first = !store.done[m.id];
     store.done[m.id] = true;
+    if (first) track("fb_mission_complete", { mission: m.id, mission_number: mission + 1 });
     saveStore();
     renderMissionList();
     let extra = "";
