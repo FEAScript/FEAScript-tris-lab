@@ -65,17 +65,12 @@
     <link href="https://feascript.com/feascript-website.css" rel="stylesheet" type="text/css" />
     <link href="tris-lab.css" rel="stylesheet" type="text/css" />
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JPK0KLEC9"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-1JPK0KLEC9");
-    </script>
+    <!-- Cloudflare Web Analytics (no cookies) -->
+    <script
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "c80011c87610425097253536c6a397c1"}'
+    ></script>
   </head>
 
   <body>
@@ -530,7 +525,7 @@
           </nav>
         </div>
         <div class="footer-bottom">
-          <span>&#169; 2023-<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a></span>
+          <span>&#169; 2023-<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span>
           <span>Core: MIT license &middot; Website: CC BY 4.0 &middot; FEM Blocks uses Blockly (Apache 2.0)</span>
         </div>
       </div>

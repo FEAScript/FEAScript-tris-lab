@@ -71,17 +71,12 @@
     <script src="https://cdn.jsdelivr.net/npm/blockly@12.3.1/blockly_compressed.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/blockly@12.3.1/msg/en.js"></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JPK0KLEC9"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-1JPK0KLEC9");
-    </script>
+    <!-- Cloudflare Web Analytics (no cookies) -->
+    <script
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "c80011c87610425097253536c6a397c1"}'
+    ></script>
   </head>
 
   <body>
@@ -218,7 +213,7 @@
       <span>FEM Blocks is part of <a href="../index.html">Tri's Lab by FEAScript</a>.</span>
       <span>Solver: <a href="https://feascript.com">FEAScript</a> <b id="feaVersion"></b> · Blocks:
         <a href="https://github.com/google/blockly">Blockly</a> (Apache 2.0)</span>
-      <span>&#169; 2023-<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a></span>
+      <span>&#169; 2023-<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; This site uses no cookies</span>
     </footer>
 
     <div class="fb-toast" id="toast" role="status"></div>
