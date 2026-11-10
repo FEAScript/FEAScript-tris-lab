@@ -2,7 +2,7 @@
 
 # Tri's Lab by FEAScript
 
-Tri's Lab by FEAScript is a playful place to discover the finite element method, the technique engineers use to simulate how heat spreads, how fluids flow and how structures bend. It is made for students and curious beginners: you don't need to know the maths or write any code. Tri, a small triangle robot, shows you around.
+Tri's Lab by FEAScript is a playful place to discover the finite element method, the technique engineers use to simulate how heat spreads, how fluids flow and how structures bend. It is made for students and curious beginners: you don't need to know the math or write any code. Tri, a small triangle robot, shows you around.
 
 Everything runs in your browser, and every result is a real simulation, solved by [FEAScript](https://feascript.com), the open-source finite element library in JavaScript.
 

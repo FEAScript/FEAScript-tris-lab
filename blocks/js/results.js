@@ -644,7 +644,7 @@ function femExplainHtml(res) {
         ${flow ? "Each node has a speed left-right and a speed up-down, and the corner nodes also have a pressure: that's" : front ? "Each one has one unknown arrival time φ: that's" : "Each one has one unknown temperature: that's"}
         <b>${res.unknowns} unknowns</b>. Inside a piece, the answer is drawn as a ${curvy ? "curvy" : "straight"} shape between its nodes.</li>
       <li><b>Equations.</b> FEAScript turns ${flow ? "the flow equations" : front ? "|∇φ| = 1" : "−∇·(k∇T) = Q"} into one equation per unknown and stacks them into
-        one giant table, <b>K · ${flow ? "u" : front ? "Δφ" : "T"} = F</b>. A piece only touches its neighbours, so most of K is zeros.
+        one giant table, <b>K · ${flow ? "u" : front ? "Δφ" : "T"} = F</b>. A piece only touches its neighbors, so most of K is zeros.
         ${front ? "The eikonal equation is <b>nonlinear</b>, so one table isn't enough: FEAScript starts from a smoother, easier version and switches the real equation on in 5 steps, re-building and solving the table a few times in each (Newton-Raphson)." : ""}
         ${flow ? "" : `Here is your K: every dark pixel is a number that isn't zero.<canvas class="px fb-mini" id="miniK"></canvas>`}</li>
       <li><b>Solve.</b> ${res.spec.solver?.method === "frontal" ? "The frontal solver" : "LU"} solved all ${res.unknowns} equations at once in

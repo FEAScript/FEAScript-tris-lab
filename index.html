@@ -18,7 +18,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tri's Lab by FEAScript" />
     <meta property="og:title" content="Tri's Lab by FEAScript" />
-    <meta property="og:description" content="Play and build with real finite element simulations in your browser: a pixel-art game and a block editor, guided by Tri, the FEAScript robot." />
+    <meta property="og:description" content="Play and build with real finite element simulations in your browser: a pixel-art game and a block editor, guided by Tri, the triangle robot of FEAScript." />
     <meta property="og:url" content="https://lab.feascript.com/" />
     <meta property="og:image" content="https://lab.feascript.com/assets/critical-mesh.png" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -29,7 +29,7 @@
         "name": "Tri's Lab by FEAScript",
         "alternateName": ["Tri's Lab", "Tris Lab", "FEAScript Tri's Lab"],
         "url": "https://lab.feascript.com/",
-        "description": "Play and build with real finite element simulations in your browser: a pixel-art game and a block editor, guided by Tri, the FEAScript robot.",
+        "description": "Play and build with real finite element simulations in your browser: a pixel-art game and a block editor, guided by Tri, the triangle robot of FEAScript.",
         "isAccessibleForFree": true,
         "publisher": { "@type": "Organization", "name": "FEAScript", "url": "https://feascript.com" }
       }
@@ -94,6 +94,8 @@
             <a class="nav-link" href="#play"><span>Play and build</span></a>
             <a class="nav-link" href="#learn"><span>What you learn</span></a>
             <a class="nav-link nav-link-out" href="https://feascript.com/" data-icon="website"><span>FEAScript</span></a>
+            <a class="nav-link nav-link-out" href="https://docs.feascript.com" data-icon="documentation"><span>Documentation</span></a>
+            <a class="nav-link nav-link-out" href="https://feascript.com/studio.html" data-icon="studio"><span>Studio</span></a>
           </nav>
         </div>
 
@@ -111,7 +113,7 @@
             </svg>
             <span id="github-stars" class="label"></span>
           </a>
-          <button id="theme-toggle" class="nav-icon theme-toggle" type="button" aria-label="Toggle colour theme">
+          <button id="theme-toggle" class="nav-icon theme-toggle" type="button" aria-label="Toggle color theme">
             <svg
               class="icon-moon"
               viewBox="0 0 24 24"
@@ -168,7 +170,9 @@
         <a href="#tri">Meet Tri</a>
         <a href="#play">Play and build</a>
         <a href="#learn">What you learn</a>
-        <a class="nav-link-out" href="https://feascript.com/">FEAScript</a>
+        <a class="nav-link-out" href="https://feascript.com/" data-icon="website">FEAScript</a>
+        <a class="nav-link-out" href="https://docs.feascript.com" data-icon="documentation">Documentation</a>
+        <a class="nav-link-out" href="https://feascript.com/studio.html" data-icon="studio">FEAScript Studio</a>
       </nav>
     </header>
 
@@ -261,7 +265,7 @@
               <div class="lab-role" data-physics="heat">
                 <p class="lab-kind"><span>GAMES</span> Physics guide</p>
                 <p class="desc">
-                  In the games, FEAScript does the maths and Tri explains what it means, keeping Field Notes on the
+                  In the games, FEAScript does the math and Tri explains what it means, keeping Field Notes on the
                   physics you meet.
                 </p>
               </div>
@@ -275,7 +279,7 @@
               <div class="lab-role" data-physics="front">
                 <p class="lab-kind"><span>TUTORIALS</span> Tips</p>
                 <p class="desc">
-                  In the <a href="https://feascript.com/#tutorials">tutorials</a>, Tri leaves short technical tips on
+                  In the <a href="https://feascript.com/tutorials/">tutorials</a>, Tri leaves short technical tips on
                   what the text leaves out, with links to the documentation.
                 </p>
               </div>
@@ -309,8 +313,8 @@
                 <p class="lab-kind"><span>PLAY</span> Game · story campaign</p>
                 <h3>Critical Mesh</h3>
                 <p>
-                  Nodessa, 2089. The city runs on a single glowing plate of alloy, and you're its new night engineer.
-                  Roll the die, carry heat cells across the floor and mount them, then watch FEAScript solve the
+                  Nodessa, 2089. The city runs on one glowing slab of alloy, and you're its new night engineer.
+                  Roll the die, carry thermo-cells across the floor and mount them, then watch FEAScript solve the
                   temperature under your boots. Push your luck too far, and the Plate melts down.
                 </p>
                 <ul class="lab-list">
@@ -403,7 +407,7 @@
               <p class="lab-eq"><b><i>K</i></b> · <b><i>T</i></b> = <b><i>F</i></b></p>
               <h3>Solve all the nodes together</h3>
               <p class="desc">
-                Each node gets one equation, linked to its neighbours. FEAScript solves all of them at once, usually in
+                Each node gets one equation, linked to its neighbors. FEAScript solves all of them at once, usually in
                 well under a second.
               </p>
             </article>
@@ -425,8 +429,9 @@
             </article>
             <p class="cell cell-note prose" style="grid-column: 1 / -1" data-reveal>
               <span class="tag">Support</span>
-              <a href="https://github.com/sponsors/FEAScript">Donations</a> help accelerate the next generation of
-              FEAScript's solvers, performance, documentation and tutorials.
+              Tri's Lab is free and has no ads.
+              <a href="https://github.com/sponsors/FEAScript">Donations</a> pay for new games, missions and
+              tutorials, and for work on FEAScript itself.
             </p>
           </div>
         </div>
@@ -499,7 +504,7 @@
           <nav class="footer-col" aria-label="Learn">
             <h2>Learn</h2>
             <ul>
-              <li><a href="https://feascript.com/#tutorials" data-icon="tutorials">Tutorials</a></li>
+              <li><a href="https://feascript.com/tutorials/" data-icon="tutorials">Tutorials</a></li>
               <li><a href="https://codepen.io/FEAScript" data-icon="codepen">CodePen</a></li>
               <li><a href="https://hub.scribbler.live/portfolio/#!nikoscham/FEAScript-Scribbler-examples" data-icon="scribbler">Scribbler</a></li>
               <li><a href="https://docs.feascript.com" data-icon="documentation">Documentation</a></li>
@@ -525,8 +530,8 @@
           </nav>
         </div>
         <div class="footer-bottom">
-          <span>&#169; 2023-<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span>
-          <span>Core: MIT license &middot; Website: CC BY 4.0 &middot; FEM Blocks uses Blockly (Apache 2.0)</span>
+          <span>&#169; 2023–<span id="currentYear"></span> FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span>
+          <span>Code: MIT license &middot; Writing and art: CC BY 4.0 &middot; FEM Blocks uses Blockly (Apache 2.0)</span>
         </div>
       </div>
     </footer>

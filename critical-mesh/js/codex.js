@@ -49,7 +49,7 @@ const NOTES = [
     eq: EQ.heat,
     words:
       "Heat always flows from hot to cold. Once nothing changes any more (steady state), every tiny piece of metal must pass on exactly as much heat as it receives, plus whatever is made inside it. Write that balance for every point of the Plate and you get this equation. <b>∇T</b> is the slope of the temperature, <b>k∇T</b> is the heat flow down that slope, and <b>∇·</b> asks whether more heat leaves a point than arrives.",
-    game: "Every time you mount a cell, FEAScript solves this equation for the whole Plate. The colours under your boots are its answer, T(x, y).",
+    game: "Every time you mount a cell, FEAScript solves this equation for the whole Plate. The colors under your boots are its answer, T(x, y).",
     code: `model.setModelConfig("heatConductionScript", {
   coefficientFunctions: { thermalConductivity, heatSource },
 });`,
@@ -61,7 +61,7 @@ const NOTES = [
     title: "Heat source Q",
     eq: "{Q} = pips·q in a cell",
     words:
-      "Q is how much heat every cubic metre makes each second (W/m³). It is the only thing on the right-hand side of the equation, so it is what pushes the temperature up. Everything else (k and the edges) decides where that heat can go.",
+      "Q is how much heat every cubic meter makes each second (W/m³). It is the only thing on the right-hand side of the equation, so it is what pushes the temperature up. Everything else (k and the edges) decides where that heat can go.",
     game: "The die sets Q: each pip adds the same power inside a circle of radius 3 m. A 6 makes twice the heat of a 3.",
     code: `heatSource: (x, y) =>
   cells.reduce((Q, c) => Q + (Math.hypot(x - c.x, y - c.y) < 3 ? c.q : 0), 0)`,
@@ -190,7 +190,7 @@ model.addBoundaryCondition("4", ["constantTemperature", 20]); // pipe`,
     title: "Euler-Bernoulli beam",
     eq: EQ.beam,
     words:
-      "A beam bends under load. <b>w</b> is how far it sags, <b>q</b> the load per metre, and <b>EI</b> the bending stiffness: E for the material, I for the shape of the cross-section. Rust lowers EI, so that span bends more. A prop pins w = 0 at one point and splits the beam into shorter, stiffer spans.",
+      "A beam bends under load. <b>w</b> is how far it sags, <b>q</b> the load per meter, and <b>EI</b> the bending stiffness: E for the material, I for the shape of the cross-section. Rust lowers EI, so that span bends more. A prop pins w = 0 at one point and splits the beam into shorter, stiffer spans.",
     game: "Each check solves 17 load cases, one for every spot you could stand on, and keeps the worst sag.",
     code: `model.setModelConfig("eulerBernoulliBeamScript", {
   coefficientFunctions: { EI: (x) => (rusty(x) ? 1400 : 4000), q: () => -120 },

@@ -42,13 +42,13 @@ const CAMPAIGN = [
     tutorial: true,
     story: [
       ["narr", "Nine years after the Grid Collapse, Nodessa runs on a single machine: the Heatworks."],
-      ["narr", "Under its glass dome lies the Plate, a 40 × 20 metre slab of alloy studded with thermo-cells. Each cell turns heat into power. Too much heat, and the Plate melts."],
+      ["narr", "Under its glass dome lies the Plate, a 40 × 20 meter slab of alloy studded with thermo-cells. Each cell turns heat into power. Too much heat, and the Plate melts."],
       ["news", "HEATWORKS HITS NINE YEARS WITHOUT A BLACKOUT. City engineers hiring for the night shift."],
       ["narr", "Tonight is your first night shift."],
       ["ella", "You must be the new night engineer. Ella Mentz, chief of the Heatworks. Don't touch anything shiny yet."],
       ["ella", "That's the Plate. My father designed it the year the grid collapsed. We mount thermo-cells on it. Every cell makes power, and every cell pours heat into the alloy."],
       ["mesh", "GOOD EVENING. I AM MESH, THE PLATE MONITOR. AFTER EVERY CHANGE I SOLVE THE STEADY-STATE HEAT EQUATION ON 2145 FINITE ELEMENT NODES. IT TAKES ME ABOUT FIFTY MILLISECONDS."],
-      ["tri", "Hi! I'm Tri, the FEAScript triangle robot. And no, I'm not a tortilla chip, whatever the night crew says. Gale Mentz built me to explain the physics: MESH does the maths, I tell you what it means."],
+      ["tri", "Hi! I'm Tri, the FEAScript triangle robot. And no, I'm not a tortilla chip, whatever the night crew says. Gale Mentz built me to explain the physics: MESH does the math, I tell you what it means."],
       ["ella", "MESH is fast, and it never lies. And Tri is... well, Tri is Tri. Mention heat and you'll get a lecture."],
       ["mesh", "THE ROUTINE: ROLL THE DIE FOR A CELL, CARRY IT ONTO THE PLATE, MOUNT IT. WALK WITH WASD OR THE ARROW KEYS, MOUNT WITH SPACE, OR CLICK WHERE YOU WANT IT."],
       ["tri", "The coolant pipe holds the bottom edge at 20 °C. The top edge breathes into the air. The sides are insulated, so no heat escapes there."],
@@ -150,7 +150,7 @@ const CAMPAIGN = [
     story: [
       ["ella", "I ordered copper inlays for the Plate. Di Verge's people left the spools in the east store, on the far side of the old catwalk."],
       ["ella", "That catwalk hangs over the coolant channel, bolted to the wall at one end and nothing at the other. It sags like a hammock."],
-      ["tri", "The catwalk is a 4 metre cantilever: fixed at the wall, free at the end, sagging under its own weight. Between 2.25 and 3 metres it's corroded, so its bending stiffness EI drops to a third."],
+      ["tri", "The catwalk is a 4 meter cantilever: fixed at the wall, free at the end, sagging under its own weight. Between 2.25 and 3 meters it's corroded, so its bending stiffness EI drops to a third."],
       ["tri", "MESH treats it as an Euler-Bernoulli beam, EI(x) d⁴w/dx⁴ = q(x): w is the sag, q is the load. It solves one load case for every spot you stand on."],
       ["tri", "Fun fact: Euler and Bernoulli worked this out in the 1700s!"],
       ["mesh", "FUN FACT: THEY DID NOT HAVE TO WALK ON IT."],
@@ -303,7 +303,7 @@ const ENDING = [
   ["news", "SINGULARITY VOTE CANCELLED. CONSORTIUM DIRECTOR ARRESTED. 'The Heatworks stays public,' says reinstated chief Ella Mentz."],
   ["ella", "Go home and get some sleep, Chief Engineer. Yes, that's you now. I'm taking a desk job: someone has to rewrite the firmware."],
   ["mesh", "GALE MENTZ'S LAST COMMENT IN MY SOURCE CODE SAYS: 'KEEP THE CITY WARM, NOT HOT.' I THINK YOU UNDERSTOOD IT. STEADY STATE REACHED."],
-  ["tri", "Steady state. My favourite kind of state."],
+  ["tri", "Steady state. My favorite kind of state."],
 ];
 
 const MELTDOWN_QUOTES = [

@@ -75,10 +75,10 @@ const TRI_JOKES = [
   "Am I crunchy? No. Am I meshed into finite elements? Very.",
   "Someone tried to dip me in guacamole once. I solved the heat equation on it instead.",
   "Tortilla chips are made of corn. I'm made of 4 × 4-pixel elements.",
-  "My favourite chip? The one in a computer. I just helped you cool one down!",
+  "My favorite chip? The one in a computer. I just helped you cool one down!",
   "I don't melt at 100 °C. A tortilla chip just gets… very crispy.",
   "Fun fact: a triangle is the simplest finite element there is. Tortilla chips are just showing off.",
-  "If you put me in a bag with other chips, I'll organise them into a mesh.",
+  "If you put me in a bag with other chips, I'll organize them into a mesh.",
 ];
 
 const Tri = {
@@ -234,7 +234,7 @@ const MATH = {
         ? `<span class="op">−</span><span class="op">d/dx</span>(<span data-term="k">k</span> <span class="op">d</span><span data-term="T">T</span><span class="op">/dx</span>) <span class="op">=</span> <span data-term="Q">Q</span>`
         : `<span class="op">−∇·(</span><span data-term="k">k</span> <span class="op">∇</span><span data-term="T">T</span><span class="op">) =</span> <span data-term="Q">Q</span>`,
     terms: [
-      { term: "T", sym: "T", name: "temperature", desc: "the answer: the colours in the picture", from: ["fem_show", "fem_probe"] },
+      { term: "T", sym: "T", name: "temperature", desc: "the answer: the colors in the picture", from: ["fem_show", "fem_probe"] },
       { term: "k", sym: "k", name: "conductivity", desc: "how easily heat travels (k = 1 if you don't choose)", from: ["fem_material", "fem_material_k"] },
       { term: "Q", sym: "Q", name: "heat made inside", desc: "heaters (Q = 0 if there are none)", from: ["fem_heater", "fem_heat_all"] },
       { term: "dirichlet", sym: "T = T₀", name: "fixed-temperature edge", desc: "keep the edge at…", from: ["fem_edge_temp"] },
@@ -246,8 +246,8 @@ const MATH = {
     label: "Front",
     eq: () => `<span class="op">|∇</span><span data-term="phi">φ</span><span class="op">| = 1</span>`,
     terms: [
-      { term: "phi", sym: "φ", name: "arrival time", desc: "the answer: when the front reaches each point (the colours)", from: ["fem_show", "fem_probe"] },
-      { term: "speed", sym: "|∇φ| = 1", name: "same speed everywhere", desc: "the front moves 1 metre for every unit of time", from: [] },
+      { term: "phi", sym: "φ", name: "arrival time", desc: "the answer: when the front reaches each point (the colors)", from: ["fem_show", "fem_probe"] },
+      { term: "speed", sym: "|∇φ| = 1", name: "same speed everywhere", desc: "the front moves 1 meter for every unit of time", from: [] },
       { term: "start", sym: "φ = 0", name: "where it starts", desc: "start the front at…", from: ["fem_front_start"] },
       { term: "slide", sym: "∂φ/∂n = 0", name: "where it only slides", desc: "slide along, or no block", from: ["fem_front_slide"] },
     ],

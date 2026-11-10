@@ -274,7 +274,7 @@ Blockly.common.defineBlocksWithJsonArray([
     message0: "%1 SHOW the picture %2 with the mesh",
     args0: [icon("show"), { type: "field_checkbox", name: "MESH", checked: false }],
     ...stmt(COL.show),
-    tooltip: "Paint the answer in colours. Tick the box to see the pieces (the mesh).",
+    tooltip: "Paint the answer in colors. Tick the box to see the pieces (the mesh).",
   },
   {
     type: "fem_probe",
@@ -396,7 +396,7 @@ const BLOCK_INFO = {
     term: "Q",
     title: "Heat made inside: Q",
     words:
-      "<b>Q</b> is heat made inside the material itself, in watts for every cubic metre. An electric wire, a battery or even a compost heap all make their own heat. More Q pushes the temperature up.",
+      "<b>Q</b> is heat made inside the material itself, in watts for every cubic meter. An electric wire, a battery or even a compost heap all make their own heat. More Q pushes the temperature up.",
     fun: "Try a negative Q: that's a fridge inside the material!",
   },
   fem_heater: {
@@ -463,7 +463,7 @@ const BLOCK_INFO = {
     term: "T",
     title: "The picture",
     words:
-      "Paints the answer: every colour is a temperature (or a speed). Hover over the picture to read it. Tick the box to see the mesh: the pieces your shape was cut into.",
+      "Paints the answer: every color is a temperature (or a speed). Hover over the picture to read it. Tick the box to see the mesh: the pieces your shape was cut into.",
   },
   fem_probe: {
     term: "T",
