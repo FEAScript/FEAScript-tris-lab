@@ -75,7 +75,7 @@ const NOTES = [
     words:
       "Some edges are simply told their temperature. The coolant pipe holds the bottom of the Plate at 20 °C however much heat arrives, so it is the Plate's main way out. Mathematicians call this a <b>Dirichlet</b> boundary condition.",
     game: "Mount big cells close to the bottom edge: their heat has a short trip to the coolant. If the coolant runs warm, the whole Plate shifts up with it.",
-    code: `model.addBoundaryCondition("0", ["constantTemperature", 20]); // bottom`,
+    code: `model.addBoundaryCondition("bottom", ["constantTemperature", 20]);`,
     how: "Stand on the bottom edge after mounting a cell.",
   },
   {
@@ -86,7 +86,7 @@ const NOTES = [
     words:
       "The top edge touches air. Air carries heat away, but only in proportion to how much hotter the metal is than the air. <b>h</b> says how good the air is at it: still air has a small h, a fan a big one. This mix of T and its slope is a <b>Robin</b> boundary condition.",
     game: "With h = 0.1 the top is a poor exit, so most of your heat must reach the coolant. On a heat wave the air is hotter than the coolant and the top edge heats the Plate instead.",
-    code: `model.addBoundaryCondition("2", ["convection", 0.1, 20]); // top: h, T_air`,
+    code: `model.addBoundaryCondition("top", ["convection", 0.1, 20]); // h, T_air`,
     how: "Walk to the top edge.",
   },
   {
@@ -97,7 +97,7 @@ const NOTES = [
     words:
       "No heat crosses an insulated wall: the temperature slope across it is zero. In FEAScript an edge without any condition is insulated automatically (a <b>natural</b> boundary condition, also called <b>Neumann</b>). Heat that reaches a side wall has to turn around.",
     game: "Corners are traps: two walls, no exit. A cell tucked into a side corner runs much hotter than the same cell in the middle.",
-    code: `// No condition on "1" (left) and "3" (right): both are insulated`,
+    code: `// No condition on "left" and "right": both are insulated`,
     how: "Walk to one of the side walls.",
   },
   {
@@ -130,10 +130,8 @@ const NOTES = [
     words:
       "A computer can't find T at infinitely many points. The finite element method cuts the Plate into small pieces called <b>elements</b> (here 32 × 16 quadratic quadrilaterals). Inside each element T is a simple curved shape N<sub>i</sub> built from the values at its <b>nodes</b>, T<sub>i</sub>. Find the 2145 nodal values and you know T everywhere.",
     game: "Press <kbd>G</kbd> to see the mesh. Every corner and mid-side point is a node.",
-    code: `model.setMeshConfig({
-  meshDimension: "2D", elementOrder: "quadratic",
-  numElementsX: 32, numElementsY: 16, maxX: 40, maxY: 20,
-});`,
+    code: `model.setGeometry({ rectangle: [40, 20] });
+model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [32, 16] });`,
     how: "Switch on the mesh view (G).",
   },
   {
@@ -168,7 +166,7 @@ const before = model.solve();`,
     words:
       "Opening a vent turns an insulated wall into a convective one. Same equation, same cells, different boundary, different answer: boundary conditions are half of every physics problem.",
     game: "A vent only helps the cells near its wall. FEAScript re-solves the whole Plate with the new edge right away.",
-    code: `model.addBoundaryCondition("1", ["convection", 0.3, 20]); // left vent`,
+    code: `model.addBoundaryCondition("left", ["convection", 0.3, 20]); // vent`,
     how: "Open a side vent.",
   },
   {
@@ -180,8 +178,8 @@ const before = model.solve();`,
       "Real parts have holes. A grid of rectangles can't follow a circle, so this Plate was meshed in Gmsh: 604 curved quadratic quadrilaterals that wrap around the pipe. FEAScript reads the .msh file, and the pipe wall becomes a fifth boundary with its own condition.",
     game: "The bypass pipe pulls heat out from the middle of the Plate. Cells around it run cool.",
     code: `const mesh = await importGmshMesh(file);
-model.setMeshConfig({ parsedMesh: mesh, meshDimension: "2D", elementOrder: "quadratic" });
-model.addBoundaryCondition("4", ["constantTemperature", 20]); // pipe`,
+model.setMesh(mesh);
+model.addBoundaryCondition("pipe", ["constantTemperature", 20]);`,
     how: "Reach the shift with the bypass pipe.",
   },
   {
@@ -207,8 +205,8 @@ model.addBoundaryCondition("1", [["fixed"]]);`,
       "Metal freezes from the cold walls inward, at a steady speed. <b>φ(x, y)</b> is the time the solid front reaches each point, and its slope is always 1, like ripples spreading from a stone. The last point to freeze (largest φ) is where shrinkage holes form, so it must sit inside the riser.",
     game: "A chilled wall starts the front at φ = 0. A warm wall lets the front slide along it.",
     code: `model.setModelConfig("frontPropagationScript");
-model.addBoundaryCondition("0", ["constantValue", 0]);  // chilled
-model.addBoundaryCondition("2", ["zeroGradient"]);      // warm`,
+model.addBoundaryCondition("bottom", ["constantValue", 0]); // chilled
+model.addBoundaryCondition("top", ["zeroGradient"]);       // warm`,
     how: "Reach Cold Pour.",
   },
   {
@@ -220,7 +218,7 @@ model.addBoundaryCondition("2", ["zeroGradient"]);      // warm`,
       "Very thick or very slow fluids have no momentum: they stop the moment you stop pushing. Friction <b>μ∇²u</b> balances the pressure push <b>∇p</b>, and <b>∇·u = 0</b> says fluid is never created or lost. Moving walls drag the fluid along with them.",
     game: "Two belts moving the same way add up. Opposite belts make the coolant spin in place.",
     code: `model.setModelConfig("creepingFlowScript");
-model.addBoundaryCondition("2", ["constantVelocity", 1, 0]); // moving top belt`,
+model.addBoundaryCondition("top", ["constantVelocity", 1, 0]); // moving belt`,
     how: "Reach the Pump Room.",
   },
 ];

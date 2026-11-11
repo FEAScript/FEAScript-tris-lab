@@ -14,7 +14,7 @@
 // MESH_PLATE_BYPASS: meshes/plate-bypass.msh, generated from meshes/plate-bypass.geo
 // 4 m × 2 m plate with a coolant bypass pipe (r = 0.3 m at (1.1, 0.9)),
 // quadratic quadrilaterals, MSH 4.1 ASCII.
-// Boundary keys: "0" bottom, "1" left, "2" top, "3" right, "4" pipe
+// Boundary names (physical groups): "bottom", "left", "top", "right", "pipe"
 
 const BYPASS_PIPE = { x: 1.1, y: 0.9, r: 0.3 };
 

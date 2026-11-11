@@ -16,7 +16,7 @@
 
 // FEAScript release the game is built against. Pinned so that a push to FEAScript-core cannot
 // change the game; bump it on purpose and replay the shifts and interludes
-const FEASCRIPT_VERSION = "0.3.1";
+const FEASCRIPT_VERSION = "0.4.0";
 
 // FEAScript builds (documented CDN URLs); the first one that loads wins
 const FEASCRIPT_URLS = [

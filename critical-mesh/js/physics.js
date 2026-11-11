@@ -104,6 +104,9 @@ function sampleNodal(grid, ni, nj, maxX, maxY, x, y) {
   );
 }
 
+// The boundary names of a rectangle in FEAScript, in the order of the walls of the game
+const WALLS = ["bottom", "left", "top", "right"];
+
 const sampleGrid = (grid, x, y) => sampleNodal(grid, NI, NJ, PLATE.maxX, PLATE.maxY, x, y);
 
 function logSolve(label, ms, extra) {
@@ -185,23 +188,17 @@ const Physics = {
     this.unstructured = !!(bc.pipe && this.bypass);
     const model = new FEA.FEAScriptModel();
     if (this.unstructured) {
-      model.setMeshConfig({ parsedMesh: this.bypass.parsedMesh, meshDimension: "2D", elementOrder: "quadratic" });
-      model.addBoundaryCondition("4", ["constantTemperature", bc.coolantT]); // bypass pipe wall
+      model.setMesh(this.bypass.parsedMesh);
+      model.addBoundaryCondition("pipe", ["constantTemperature", bc.coolantT]); // bypass pipe wall
     } else {
-      model.setMeshConfig({
-        meshDimension: "2D",
-        elementOrder: "quadratic",
-        numElementsX: PLATE.nx,
-        numElementsY: PLATE.ny,
-        maxX: PLATE.maxX,
-        maxY: PLATE.maxY,
-      });
+      model.setGeometry({ rectangle: [PLATE.maxX, PLATE.maxY] });
+      model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [PLATE.nx, PLATE.ny] });
     }
-    model.addBoundaryCondition("0", ["constantTemperature", bc.coolantT]); // bottom: coolant
-    model.addBoundaryCondition("2", ["convection", bc.airH, bc.airT]); // top: air
-    // "1" left and "3" right: insulated (no condition) unless a side vent is open
-    if (bc.ventLeft) model.addBoundaryCondition("1", ["convection", H_VENT, bc.airT]);
-    if (bc.ventRight) model.addBoundaryCondition("3", ["convection", H_VENT, bc.airT]);
+    model.addBoundaryCondition("bottom", ["constantTemperature", bc.coolantT]); // coolant
+    model.addBoundaryCondition("top", ["convection", bc.airH, bc.airT]); // air
+    // Left and right: insulated (no condition) unless a side vent is open
+    if (bc.ventLeft) model.addBoundaryCondition("left", ["convection", H_VENT, bc.airT]);
+    if (bc.ventRight) model.addBoundaryCondition("right", ["convection", H_VENT, bc.airT]);
     model.setSolverMethod("lusolve");
     this.model = model;
   },
@@ -255,7 +252,8 @@ const Physics = {
     model.setModelConfig("eulerBernoulliBeamScript", {
       coefficientFunctions: { EI, c0: () => 0, q: () => -selfWeight },
     });
-    model.setMeshConfig({ meshDimension: "1D", elementOrder: "linear", numElementsX: elements, maxX: length });
+    model.setGeometry({ line: length });
+    model.setMeshConfig({ elementOrder: "linear", divisions: elements });
     const conditions = { 1: [["fixed"]] };
     for (const p of props) (conditions[p] ||= []).push(["pinned"]);
     if (loadNode > 1) (conditions[loadNode] ||= []).push(["force", -force]);
@@ -268,12 +266,13 @@ const Physics = {
   },
 
   // Eikonal front: the casting
-  // chilled[k] = true → mould wall k ("0" bottom, "1" left, "2" top, "3" right) starts the front
+  // chilled[k] = true → mould wall k (0 bottom, 1 left, 2 top, 3 right) starts the front
   solveFront({ chilled, nx, ny }) {
     const model = new FEA.FEAScriptModel();
     model.setModelConfig("frontPropagationScript");
-    model.setMeshConfig({ meshDimension: "2D", elementOrder: "quadratic", numElementsX: nx, numElementsY: ny, maxX: 4, maxY: 2 });
-    chilled.forEach((on, k) => model.addBoundaryCondition(String(k), on ? ["constantValue", 0] : ["zeroGradient"]));
+    model.setGeometry({ rectangle: [4, 2] });
+    model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [nx, ny] });
+    chilled.forEach((on, k) => model.addBoundaryCondition(WALLS[k], on ? ["constantValue", 0] : ["zeroGradient"]));
     model.setSolverMethod("lusolve");
     const t0 = performance.now();
     const result = model.solve();
@@ -285,15 +284,16 @@ const Physics = {
   },
 
   // Stokes flow: the coolant manifold
-  // walls[k] = tangential belt speed of wall k ("0" bottom, "1" left, "2" top, "3" right)
+  // walls[k] = tangential belt speed of wall k (0 bottom, 1 left, 2 top, 3 right)
   solveFlow({ walls, nx, ny }) {
     const model = new FEA.FEAScriptModel();
     model.setModelConfig("creepingFlowScript");
-    model.setMeshConfig({ meshDimension: "2D", elementOrder: "quadratic", numElementsX: nx, numElementsY: ny, maxX: 4, maxY: 2 });
-    model.addBoundaryCondition("0", ["constantVelocity", walls[0], 0]);
-    model.addBoundaryCondition("1", ["constantVelocity", 0, walls[1]]);
-    model.addBoundaryCondition("2", ["constantVelocity", walls[2], 0]);
-    model.addBoundaryCondition("3", ["constantVelocity", 0, walls[3]]);
+    model.setGeometry({ rectangle: [4, 2] });
+    model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [nx, ny] });
+    model.addBoundaryCondition("bottom", ["constantVelocity", walls[0], 0]);
+    model.addBoundaryCondition("left", ["constantVelocity", 0, walls[1]]);
+    model.addBoundaryCondition("top", ["constantVelocity", walls[2], 0]);
+    model.addBoundaryCondition("right", ["constantVelocity", 0, walls[3]]);
     model.setSolverMethod("lusolve");
     const t0 = performance.now();
     const result = model.solve();

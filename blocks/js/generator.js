@@ -11,9 +11,10 @@
 // Reads the blocks, checks them (with friendly messages) and
 // writes the FEAScript code that Run executes
 
+// The boundary names of FEAScript: a rectangle has bottom, left, top and right edges, a bar has left and right ends
 const EDGE_KEY = {
-  "2D": { bottom: "0", left: "1", top: "2", right: "3" },
-  "1D": { left: "0", right: "1" },
+  "2D": { bottom: "bottom", left: "left", top: "top", right: "right" },
+  "1D": { left: "left", right: "right" },
 };
 const EDGE_NAME_1D = { left: "left end", right: "right end" };
 
@@ -234,22 +235,12 @@ function buildCode(spec) {
   from(S.block);
   if (is1D) {
     L.push(`// Shape: a ${n(S.L)} m bar cut into ${S.nx} ${order === "linear" ? "straight" : "curvy"} pieces`);
-    L.push("model.setMeshConfig({");
-    L.push(`  meshDimension: "1D",`);
-    L.push(`  elementOrder: "${order}",`);
-    L.push(`  numElementsX: ${S.nx},`);
-    L.push(`  maxX: ${n(S.L)},`);
-    L.push("});");
+    L.push(`model.setGeometry({ line: ${n(S.L)} });`);
+    L.push(`model.setMeshConfig({ elementOrder: "${order}", divisions: ${S.nx} });`);
   } else {
     L.push(`// Shape: a ${n(S.W)} m × ${n(S.H)} m plate cut into ${S.nx} × ${S.ny} ${order === "linear" ? "straight" : "curvy"} pieces`);
-    L.push("model.setMeshConfig({");
-    L.push(`  meshDimension: "2D",`);
-    L.push(`  elementOrder: "${order}",`);
-    L.push(`  numElementsX: ${S.nx},`);
-    L.push(`  numElementsY: ${S.ny},`);
-    L.push(`  maxX: ${n(S.W)},`);
-    L.push(`  maxY: ${n(S.H)},`);
-    L.push("});");
+    L.push(`model.setGeometry({ rectangle: [${n(S.W)}, ${n(S.H)}] });`);
+    L.push(`model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "${order}", divisions: [${S.nx}, ${S.ny}] });`);
   }
 
   from();
@@ -336,7 +327,7 @@ function highlightCode({ lines, owners }) {
         .replace(/("[^"]*")/g, '<span class="tok-str">$1</span>')
         .replace(/\b(const|new|return)\b/g, '<span class="tok-kw">$1</span>')
         .replace(/\b(\d+(?:\.\d+)?)\b(?![^<]*<\/span>)/g, '<span class="tok-num">$1</span>')
-        .replace(/\.(setModelConfig|setMeshConfig|addBoundaryCondition|setSolverMethod|solve|hypot|abs)\(/g, '.<span class="tok-fn">$1</span>(');
+        .replace(/\.(setModelConfig|setGeometry|setMeshConfig|addBoundaryCondition|setSolverMethod|solve|hypot|abs)\(/g, '.<span class="tok-fn">$1</span>(');
       if (comment) h += `<span class="tok-comment">${esc(comment)}</span>`;
       return `<span class="ln" data-b="${owners[k].join(" ")}">${h || " "}</span>`;
     })

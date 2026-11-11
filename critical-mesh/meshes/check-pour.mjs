@@ -43,19 +43,21 @@ for (let mask = 1; mask < 1 << names.length; mask++) {
   total++;
   const model = new FEA.FEAScriptModel();
   model.setModelConfig("frontPropagationScript");
-  model.setMeshConfig({ parsedMesh: structuredClone(parsedMesh), meshDimension: "2D", elementOrder: "quadratic" });
-  chilled.forEach((on, k) => model.addBoundaryCondition(String(k), on ? ["constantValue", 0] : ["zeroGradient"]));
+  model.setMesh(parsedMesh);
+  chilled.forEach((on, k) => model.addBoundaryCondition(names[k], on ? ["constantValue", 0] : ["zeroGradient"]));
   model.setSolverMethod("lusolve");
 
-  // FEAScript reports a failed solve through its log, so listen to it while solving
+  // FEAScript 0.4 throws a FEAScriptError of code NOT_CONVERGED for a front that does not converge; keep the
+  // console quiet while solving
   let converged = true;
   const quiet = [console.log, console.warn, console.error];
-  console.log = console.warn = console.error = (...args) => {
-    if (args.join(" ").includes("did not converge")) converged = false;
-  };
+  console.log = console.warn = console.error = () => {};
   let result;
   try {
     result = model.solve();
+  } catch (error) {
+    if (error?.code !== "NOT_CONVERGED") throw error;
+    converged = false;
   } finally {
     [console.log, console.warn, console.error] = quiet;
   }
