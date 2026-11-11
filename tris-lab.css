@@ -21,6 +21,12 @@ html[data-theme="dark"] {
 /* ─────────────────────────────────────────────────────────────
    HERO
    ───────────────────────────────────────────────────────────── */
+/* The hero fills the whole screen. Set here as well as in the website stylesheet, so the lab does not depend on
+   which version of feascript.com is live */
+.lab-hero .hero-inner {
+  min-height: 100svh;
+}
+
 .lab-wordmark {
   gap: 0.12em;
 }
