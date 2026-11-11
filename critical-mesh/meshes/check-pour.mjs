@@ -42,10 +42,9 @@ for (let mask = 1; mask < 1 << names.length; mask++) {
   if (chilled.filter(Boolean).length > 3) continue;
   total++;
   const model = new FEA.FEAScriptModel();
-  model.setModelConfig("frontPropagationScript");
+  model.setModelConfig("frontPropagation", { solver: { method: "lusolve" } });
   model.setMesh(parsedMesh);
-  chilled.forEach((on, k) => model.addBoundaryCondition(names[k], on ? ["constantValue", 0] : ["zeroGradient"]));
-  model.setSolverMethod("lusolve");
+  chilled.forEach((on, k) => model.addBoundaryCondition(names[k], on ? { type: "constantValue", value: 0 } : { type: "zeroGradient" }));
 
   // FEAScript 0.4 throws a FEAScriptError of code NOT_CONVERGED for a front that does not converge; keep the
   // console quiet while solving

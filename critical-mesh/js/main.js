@@ -220,8 +220,8 @@ async function boot() {
     bootLine("&gt; FEAScript could not be loaded. Check your internet connection and reload.", "err");
     return;
   }
-  bootLine(`&gt; FEAScript <b>${FEA.printVersion}</b> online <span class="dim">(${new URL(feaUrl).host})</span>`, "ok");
-  console.log("FEAScript version:", FEA.printVersion);
+  bootLine(`&gt; FEAScript <b>${FEA.version}</b> online <span class="dim">(${new URL(feaUrl).host})</span>`, "ok");
+  console.log("FEAScript version:", FEA.version);
   if (FEA.logSystem) FEA.logSystem("none");
   await wait(150);
 

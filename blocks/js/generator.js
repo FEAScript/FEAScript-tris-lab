@@ -179,6 +179,12 @@ function buildCode(spec) {
   let by = [spec.hat]; // blocks behind the next lines
   const L = { push: (...t) => t.forEach((x) => (lines.push(x), owners.push(by.map((b) => b.id)))) };
   const from = (...blocks) => (by = blocks.filter(Boolean));
+  // The SOLVE IT! block picks the solver method, an option of setModelConfig
+  const solverOption = () => {
+    from(spec.solver?.block);
+    L.push(`  solver: { method: "${spec.solver ? spec.solver.method : "lusolve"}" }, // How to solve the equations`);
+    from(spec.hat);
+  };
 
   if (spec.physics === "heat") {
     L.push("// Heat conduction: −∇·(k ∇T) = Q");
@@ -207,7 +213,8 @@ function buildCode(spec) {
     else if (terms.length) coef.push([`    heatSource: (${is1D ? "x" : "x, y"}) => ${terms.join(" + ")}, // Q: heaters`, qBlocks]);
     if (coef.length) {
       L.push("// Material (k) and heat sources (Q)");
-      L.push(`model.setModelConfig("heatConductionScript", {`);
+      L.push(`model.setModelConfig("heatConduction", {`);
+      solverOption();
       L.push("  coefficientFunctions: {");
       for (const [line, blocks] of coef) {
         from(...blocks);
@@ -218,16 +225,22 @@ function buildCode(spec) {
       L.push("});");
     } else {
       L.push("// No material block: k = 1. No heaters: Q = 0.");
-      L.push(`model.setModelConfig("heatConductionScript");`);
+      L.push(`model.setModelConfig("heatConduction", {`);
+      solverOption();
+      L.push("});");
     }
   } else if (spec.physics === "front") {
     L.push("// Front propagation (the eikonal equation): |∇φ| = 1");
     L.push("const model = new FEAScriptModel();");
-    L.push(`model.setModelConfig("frontPropagationScript");`);
+    L.push(`model.setModelConfig("frontPropagation", {`);
+    solverOption();
+    L.push("});");
   } else {
     L.push("// Creeping (Stokes) flow: −μ∇²u + ∇p = 0, ∇·u = 0");
     L.push("const model = new FEAScriptModel();");
-    L.push(`model.setModelConfig("creepingFlowScript");`);
+    L.push(`model.setModelConfig("creepingFlow", {`);
+    solverOption();
+    L.push("});");
   }
 
   from();
@@ -255,9 +268,9 @@ function buildCode(spec) {
       if (!c) continue;
       any = true;
       from(c.block);
-      if (c.kind === "temp") L.push(`model.addBoundaryCondition("${keys[e]}", ["constantTemperature", ${n(c.T)}]); // ${label(e)}: ${n(c.T)} °C`);
-      if (c.kind === "air") L.push(`model.addBoundaryCondition("${keys[e]}", ["convection", ${n(c.h)}, ${n(c.Tair)}]); // ${label(e)}: air at ${n(c.Tair)} °C`);
-      if (c.kind === "insulate") L.push(`model.addBoundaryCondition("${keys[e]}", ["symmetry"]); // ${label(e)}: insulated`);
+      if (c.kind === "temp") L.push(`model.addBoundaryCondition("${keys[e]}", { type: "constantTemperature", temperature: ${n(c.T)} }); // ${label(e)}: ${n(c.T)} °C`);
+      if (c.kind === "air") L.push(`model.addBoundaryCondition("${keys[e]}", { type: "convection", h: ${n(c.h)}, ambientTemperature: ${n(c.Tair)} }); // ${label(e)}: air at ${n(c.Tair)} °C`);
+      if (c.kind === "insulate") L.push(`model.addBoundaryCondition("${keys[e]}", { type: "symmetry" }); // ${label(e)}: insulated`);
     }
     from();
     const bare = Object.keys(keys).filter((e) => !spec.edges[e]);
@@ -268,8 +281,8 @@ function buildCode(spec) {
     for (const e of Object.keys(keys)) {
       const c = spec.fronts[e];
       from(c?.block);
-      if (c?.kind === "start") L.push(`model.addBoundaryCondition("${keys[e]}", ["constantValue", 0]); // ${label(e)}: the front starts here`);
-      else L.push(`model.addBoundaryCondition("${keys[e]}", ["zeroGradient"]); // ${label(e)}: the front slides along${c ? "" : " (no block)"}`);
+      if (c?.kind === "start") L.push(`model.addBoundaryCondition("${keys[e]}", { type: "constantValue", value: 0 }); // ${label(e)}: the front starts here`);
+      else L.push(`model.addBoundaryCondition("${keys[e]}", { type: "zeroGradient" }); // ${label(e)}: the front slides along${c ? "" : " (no block)"}`);
     }
   } else {
     L.push("// Walls (boundary conditions)");
@@ -278,9 +291,9 @@ function buildCode(spec) {
       const along = e === "bottom" || e === "top";
       from(w?.block);
       if (w && w.kind === "slide") {
-        const v = along ? `${n(w.U)}, 0` : `0, ${n(w.U)}`;
-        L.push(`model.addBoundaryCondition("${keys[e]}", ["constantVelocity", ${v}]); // ${e} wall slides at ${n(w.U)}`);
-      } else L.push(`model.addBoundaryCondition("${keys[e]}", ["constantVelocity", 0, 0]); // ${e} wall holds still${w ? "" : " (no block)"}`);
+        const v = along ? `u: ${n(w.U)}, v: 0` : `u: 0, v: ${n(w.U)}`;
+        L.push(`model.addBoundaryCondition("${keys[e]}", { type: "constantVelocity", ${v} }); // ${e} wall slides at ${n(w.U)}`);
+      } else L.push(`model.addBoundaryCondition("${keys[e]}", { type: "constantVelocity", u: 0, v: 0 }); // ${e} wall holds still${w ? "" : " (no block)"}`);
     }
   }
 
@@ -294,7 +307,6 @@ function buildCode(spec) {
         ? "// Solve: the equation is nonlinear, so FEAScript solves it in rounds (Newton-Raphson)"
         : "// Solve all the equations at once",
   );
-  L.push(`model.setSolverMethod("${spec.solver ? spec.solver.method : "lusolve"}");`);
   L.push("const result = model.solve();");
   // Showing and measuring happen on the page, after the solve
   if (spec.show || spec.probes.length) {
@@ -327,7 +339,7 @@ function highlightCode({ lines, owners }) {
         .replace(/("[^"]*")/g, '<span class="tok-str">$1</span>')
         .replace(/\b(const|new|return)\b/g, '<span class="tok-kw">$1</span>')
         .replace(/\b(\d+(?:\.\d+)?)\b(?![^<]*<\/span>)/g, '<span class="tok-num">$1</span>')
-        .replace(/\.(setModelConfig|setGeometry|setMeshConfig|addBoundaryCondition|setSolverMethod|solve|hypot|abs)\(/g, '.<span class="tok-fn">$1</span>(');
+        .replace(/\.(setModelConfig|setGeometry|setMeshConfig|addBoundaryCondition|solve|hypot|abs)\(/g, '.<span class="tok-fn">$1</span>(');
       if (comment) h += `<span class="tok-comment">${esc(comment)}</span>`;
       return `<span class="ln" data-b="${owners[k].join(" ")}">${h || " "}</span>`;
     })

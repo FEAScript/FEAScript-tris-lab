@@ -50,7 +50,7 @@ const NOTES = [
     words:
       "Heat always flows from hot to cold. Once nothing changes any more (steady state), every tiny piece of metal must pass on exactly as much heat as it receives, plus whatever is made inside it. Write that balance for every point of the Plate and you get this equation. <b>∇T</b> is the slope of the temperature, <b>k∇T</b> is the heat flow down that slope, and <b>∇·</b> asks whether more heat leaves a point than arrives.",
     game: "Every time you mount a cell, FEAScript solves this equation for the whole Plate. The colors under your boots are its answer, T(x, y).",
-    code: `model.setModelConfig("heatConductionScript", {
+    code: `model.setModelConfig("heatConduction", {
   coefficientFunctions: { thermalConductivity, heatSource },
 });`,
     how: "Start any shift.",
@@ -75,7 +75,7 @@ const NOTES = [
     words:
       "Some edges are simply told their temperature. The coolant pipe holds the bottom of the Plate at 20 °C however much heat arrives, so it is the Plate's main way out. Mathematicians call this a <b>Dirichlet</b> boundary condition.",
     game: "Mount big cells close to the bottom edge: their heat has a short trip to the coolant. If the coolant runs warm, the whole Plate shifts up with it.",
-    code: `model.addBoundaryCondition("bottom", ["constantTemperature", 20]);`,
+    code: `model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 20 });`,
     how: "Stand on the bottom edge after mounting a cell.",
   },
   {
@@ -86,7 +86,7 @@ const NOTES = [
     words:
       "The top edge touches air. Air carries heat away, but only in proportion to how much hotter the metal is than the air. <b>h</b> says how good the air is at it: still air has a small h, a fan a big one. This mix of T and its slope is a <b>Robin</b> boundary condition.",
     game: "With h = 0.1 the top is a poor exit, so most of your heat must reach the coolant. On a heat wave the air is hotter than the coolant and the top edge heats the Plate instead.",
-    code: `model.addBoundaryCondition("top", ["convection", 0.1, 20]); // h, T_air`,
+    code: `model.addBoundaryCondition("top", { type: "convection", h: 0.1, ambientTemperature: 20 }); // air at 20 °C`,
     how: "Walk to the top edge.",
   },
   {
@@ -142,7 +142,7 @@ model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", div
     words:
       "Galerkin's idea: multiply the equation by each shape function N<sub>i</sub> and integrate over the Plate. Every node gives one equation, so 2145 nodes give 2145 equations for 2145 unknowns. <b>K</b> holds k, the mesh and the edges; <b>F</b> holds Q and the boundary temperatures. A direct LU solver finds every T<sub>i</sub> at once.",
     game: "That's the millisecond count on the HUD: the whole system is solved again after every move you make.",
-    code: `model.setSolverMethod("lusolve");
+    code: `model.setModelConfig("heatConduction", { solver: { method: "lusolve" } });
 const { solutionVector, nodesCoordinates } = model.solve();`,
     how: "Let FEAScript solve the Plate 5 times in one shift.",
   },
@@ -166,7 +166,7 @@ const before = model.solve();`,
     words:
       "Opening a vent turns an insulated wall into a convective one. Same equation, same cells, different boundary, different answer: boundary conditions are half of every physics problem.",
     game: "A vent only helps the cells near its wall. FEAScript re-solves the whole Plate with the new edge right away.",
-    code: `model.addBoundaryCondition("left", ["convection", 0.3, 20]); // vent`,
+    code: `model.addBoundaryCondition("left", { type: "convection", h: 0.3, ambientTemperature: 20 }); // vent`,
     how: "Open a side vent.",
   },
   {
@@ -179,7 +179,7 @@ const before = model.solve();`,
     game: "The bypass pipe pulls heat out from the middle of the Plate. Cells around it run cool.",
     code: `const mesh = await importGmshMesh(file);
 model.setMesh(mesh);
-model.addBoundaryCondition("pipe", ["constantTemperature", 20]);`,
+model.addBoundaryCondition("pipe", { type: "constantTemperature", temperature: 20 });`,
     how: "Reach the shift with the bypass pipe.",
   },
   {
@@ -190,10 +190,10 @@ model.addBoundaryCondition("pipe", ["constantTemperature", 20]);`,
     words:
       "A beam bends under load. <b>w</b> is how far it sags, <b>q</b> the load per meter, and <b>EI</b> the bending stiffness: E for the material, I for the shape of the cross-section. Rust lowers EI, so that span bends more. A prop pins w = 0 at one point and splits the beam into shorter, stiffer spans.",
     game: "Each check solves 17 load cases, one for every spot you could stand on, and keeps the worst sag.",
-    code: `model.setModelConfig("eulerBernoulliBeamScript", {
+    code: `model.setModelConfig("eulerBernoulliBeam", {
   coefficientFunctions: { EI: (x) => (rusty(x) ? 1400 : 4000), q: () => -120 },
 });
-model.addBoundaryCondition("1", [["fixed"]]);`,
+model.addBoundaryCondition("1", { type: "fixed" });`,
     how: "Reach The Gantry.",
   },
   {
@@ -204,9 +204,9 @@ model.addBoundaryCondition("1", [["fixed"]]);`,
     words:
       "Metal freezes from the cold walls inward, at a steady speed. <b>φ(x, y)</b> is the time the solid front reaches each point, and its slope is always 1, like ripples spreading from a stone. The last point to freeze (largest φ) is where shrinkage holes form, so it must sit inside the riser.",
     game: "A chilled wall starts the front at φ = 0. A warm wall lets the front slide along it.",
-    code: `model.setModelConfig("frontPropagationScript");
-model.addBoundaryCondition("bottom", ["constantValue", 0]); // chilled
-model.addBoundaryCondition("top", ["zeroGradient"]);       // warm`,
+    code: `model.setModelConfig("frontPropagation");
+model.addBoundaryCondition("bottom", { type: "constantValue", value: 0 }); // chilled
+model.addBoundaryCondition("top", { type: "zeroGradient" });               // warm`,
     how: "Reach Cold Pour.",
   },
   {
@@ -217,8 +217,8 @@ model.addBoundaryCondition("top", ["zeroGradient"]);       // warm`,
     words:
       "Very thick or very slow fluids have no momentum: they stop the moment you stop pushing. Friction <b>μ∇²u</b> balances the pressure push <b>∇p</b>, and <b>∇·u = 0</b> says fluid is never created or lost. Moving walls drag the fluid along with them.",
     game: "Two belts moving the same way add up. Opposite belts make the coolant spin in place.",
-    code: `model.setModelConfig("creepingFlowScript");
-model.addBoundaryCondition("top", ["constantVelocity", 1, 0]); // moving belt`,
+    code: `model.setModelConfig("creepingFlow");
+model.addBoundaryCondition("top", { type: "constantVelocity", u: 1, v: 0 }); // moving belt`,
     how: "Reach the Pump Room.",
   },
 ];
