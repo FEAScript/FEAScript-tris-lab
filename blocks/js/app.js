@@ -181,6 +181,10 @@ Blockly.dialog.setPrompt((msg, def, cb) => {
   ask(label ? `${label}:` : msg, { input: def ?? "", inputMode }).then(cb);
 });
 
+// Phones held upright, and short landscape screens
+const PHONE = matchMedia("(max-width: 640px)").matches;
+const SMALL_SCREEN = PHONE || matchMedia("(orientation: landscape) and (max-height: 540px)").matches;
+
 // App state
 let FEA = null;
 let workspace = null;
@@ -221,7 +225,7 @@ function openMission(i, { fresh = false, saveCurrent = true } = {}) {
   const m = MISSIONS[i];
   // An empty save (e.g. one wiped by older versions on load) falls back to the starting blocks
   const saved = !fresh && store.saved[m.id];
-  loadWorkspace(saved?.blocks?.blocks?.length ? saved : m.start());
+  loadWorkspace(saved?.blocks?.blocks?.length ? saved : m.start(), { fresh: !saved?.blocks?.blocks?.length });
   lastRes = null;
   Results.clear();
   $("femExplain").innerHTML = femExplainHtml(null);
@@ -230,7 +234,7 @@ function openMission(i, { fresh = false, saveCurrent = true } = {}) {
   Tri.set("happy", 1200);
 }
 
-function loadWorkspace(json) {
+function loadWorkspace(json, { fresh = false } = {}) {
   Blockly.Events.disable();
   try {
     workspace.clear();
@@ -240,13 +244,33 @@ function loadWorkspace(json) {
     workspace.clear();
     Blockly.serialization.workspaces.load(MISSIONS[mission].start(), workspace);
   }
+  if (fresh && PHONE) stackLooseBlocks();
   Blockly.Events.enable();
-  workspace.scrollCenter();
-  // On phones the stack is wider than the view: show its left edge, not its middle
   const metrics = workspace.getMetricsManager();
   const content = metrics.getContentMetrics();
-  if (content.width > metrics.getViewMetrics().width) workspace.scroll(16 - content.left, workspace.scrollY);
+  // Phones: start at the top-left corner of the blocks
+  if (PHONE) workspace.scroll(8 - content.left, 12 - content.top);
+  else {
+    workspace.scrollCenter();
+    // A stack wider than the view: show its left edge, not its middle
+    if (content.width > metrics.getViewMetrics().width) workspace.scroll(16 - content.left, workspace.scrollY);
+  }
   refresh();
+}
+
+// A mission's spare blocks wait to the right of the simulation, which is off a phone's screen:
+// line them up below it instead
+function stackLooseBlocks() {
+  const tops = workspace.getTopBlocks(true);
+  const sim = tops.find((b) => b.type === "fem_sim");
+  if (!sim) return;
+  const at = sim.getRelativeToSurfaceXY();
+  let y = at.y + sim.getHeightWidth().height + 32;
+  for (const b of tops) {
+    if (b === sim) continue;
+    b.moveTo(new Blockly.utils.Coordinate(at.x, y));
+    y += b.getHeightWidth().height + 16;
+  }
 }
 
 function saveWorkspace() {
@@ -568,10 +592,13 @@ async function boot() {
   }
   workspace = Blockly.inject("workspace", {
     toolbox: TOOLBOX,
+    // Phones: the categories sit in a row above the blocks, so the blocks get the whole width
+    horizontalLayout: PHONE,
+    toolboxPosition: "start",
     renderer: "pixel",
     theme: isDark() ? THEMES.dark : THEMES.light,
     grid: { spacing: 16, length: 2, colour: "rgba(140, 138, 130, 0.35)", snap: true },
-    zoom: { controls: true, wheel: false, startScale: matchMedia("(max-width: 640px), (orientation: landscape) and (max-height: 540px)").matches ? 0.75 : 0.9, maxScale: 1.6, minScale: 0.5 },
+    zoom: { controls: true, wheel: false, startScale: PHONE ? 0.7 : SMALL_SCREEN ? 0.75 : 0.9, maxScale: 1.6, minScale: 0.5 },
     move: { scrollbars: true, drag: true, wheel: true },
     trashcan: true,
     sounds: false,

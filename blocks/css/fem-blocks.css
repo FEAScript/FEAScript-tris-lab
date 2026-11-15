@@ -1102,12 +1102,48 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   }
 
   #mascot {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
 
   .fb-bubble::before {
-    top: 18px;
+    top: 14px;
+  }
+
+  /* A shorter mission card, so the blocks start higher up */
+  .fb-bubble {
+    min-height: 0;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .fb-bubble-head {
+    gap: 0.1rem 0.5rem;
+  }
+
+  .fb-kicker {
+    font-size: 0.85rem;
+  }
+
+  .fb-bubble h1 {
+    font-size: 1.4rem;
+  }
+
+  .fb-bubble p {
+    font-size: 0.88rem;
+    line-height: 1.42;
+  }
+
+  .fb-goal > span {
+    font-size: 0.88rem;
+  }
+
+  .fb-mission-side {
+    gap: 0.4rem;
+  }
+
+  .fb-mchip {
+    height: 1.75rem;
+    font-size: 1.05rem !important;
   }
 
   .fb-bench {
@@ -1139,11 +1175,21 @@ html[data-theme="dark"] .lab-tri .tri-feet {
     width: 8px;
   }
 
+  /* The categories run along the top here, and the trash and zoom sit bottom-right: Run goes bottom-left */
   .fb-run {
-    right: 0.7rem;
-    top: 0.6rem;
+    top: auto;
+    right: auto;
+    left: 0.7rem;
+    bottom: 0.7rem;
     padding: 0.35rem 0.8rem 0.35rem 0.6rem;
     font-size: 1.3rem !important;
+  }
+
+  /* Categories in a row above the blocks */
+  .blocklyToolbox,
+  .blocklyToolboxDiv {
+    border-right: 0;
+    border-bottom: 3px solid var(--outline);
   }
 
   .fb-terms {
