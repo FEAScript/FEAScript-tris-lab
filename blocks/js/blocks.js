@@ -32,6 +32,12 @@ class PixelConstants extends Blockly.blockRendering.ConstantProvider {
     this.START_HAT_WIDTH = 96;
     this.STATEMENT_INPUT_NOTCH_OFFSET = 16;
     this.STATEMENT_BOTTOM_SPACER = 8;
+    // Touch screens: wider and taller number boxes, so a finger hits the box and not the block
+    if (matchMedia("(pointer: coarse)").matches) {
+      this.FIELD_BORDER_RECT_X_PADDING = 10;
+      this.FIELD_BORDER_RECT_HEIGHT = 26;
+      this.FIELD_DROPDOWN_BORDER_RECT_HEIGHT = 26;
+    }
   }
 
   // Notch on the top edge (pathLeft, left → right) and bottom edge (pathRight, right → left)
@@ -204,12 +210,12 @@ Blockly.common.defineBlocksWithJsonArray([
   },
   {
     type: "fem_heater",
-    message0: "%1 HEATER at x %2 y %3",
-    args0: [icon("heater"), num("X", 2, -1000, 1000, 0.01), num("Y", 1, -1000, 1000, 0.01)],
+    message0: "%1 HEATER at x %2 %3 %4",
+    args0: [icon("heater"), num("X", 2, 0, 1000, 0.01), { type: "field_label", name: "YLABEL", text: "y" }, num("Y", 1, 0, 1000, 0.01)],
     message1: "size %1 m, power Q = %2",
     args1: [num("R", 0.3, 0.01, 100, 0.01), num("Q", 5000, -1000000, 1000000, 0.01)],
     ...stmt(COL.heat),
-    tooltip: "A round heater inside a plate (on a bar, only x counts).",
+    tooltip: "A round heater inside a plate. On a bar only x counts, so y is hidden.",
   },
   {
     type: "fem_edge_temp",
@@ -278,12 +284,34 @@ Blockly.common.defineBlocksWithJsonArray([
   },
   {
     type: "fem_probe",
-    message0: "%1 MEASURE at x %2 y %3",
-    args0: [icon("probe"), num("X", 2, -1000, 1000, 0.01), num("Y", 1, -1000, 1000, 0.01)],
+    message0: "%1 MEASURE at x %2 %3 %4",
+    args0: [icon("probe"), num("X", 2, 0, 1000, 0.01), { type: "field_label", name: "YLABEL", text: "y" }, num("Y", 1, 0, 1000, 0.01)],
     ...stmt(COL.show),
     tooltip: "Put a thermometer (or a speed meter, for flow) at a point.",
   },
 ]);
+
+// What the edit box asks for each number (phones edit numbers in a dialog, not on the block)
+const FIELD_PROMPTS = {
+  "fem_bar.LEN": "Bar length (m)",
+  "fem_bar.N": "Number of pieces along the bar",
+  "fem_plate.W": "Plate width (m)",
+  "fem_plate.H": "Plate height (m)",
+  "fem_plate.NX": "Number of pieces across (x)",
+  "fem_plate.NY": "Number of pieces up (y)",
+  "fem_material_k.K": "Conductivity k, in W/(m·K)",
+  "fem_heat_all.Q": "Heat made inside, Q, in W/m³",
+  "fem_heater.X": "Heater position x (m)",
+  "fem_heater.Y": "Heater position y (m)",
+  "fem_heater.R": "Heater size (m)",
+  "fem_heater.Q": "Heater power Q, in W/m³",
+  "fem_edge_temp.T": "Edge temperature (°C)",
+  "fem_edge_air.TAIR": "Air temperature (°C)",
+  "fem_edge_air.H": "Wind h, in W/(m²·K)",
+  "fem_wall_slide.U": "Wall speed",
+  "fem_probe.X": "Measuring point x (m)",
+  "fem_probe.Y": "Measuring point y (m)",
+};
 
 const TOOLBOX = {
   kind: "categoryToolbox",

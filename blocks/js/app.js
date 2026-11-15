@@ -122,7 +122,7 @@ function toast(html, cls = "") {
 }
 
 // Pixel dialog in place of the browser's alert/confirm/prompt. Resolves to true/false, or the typed text
-function ask(message, { ok = "OK", cancel = "Cancel", input = null } = {}) {
+function ask(message, { ok = "OK", cancel = "Cancel", input = null, inputMode = "text" } = {}) {
   return new Promise((resolve) => {
     const dlg = $("dialog");
     const field = $("dialogInput");
@@ -133,6 +133,7 @@ function ask(message, { ok = "OK", cancel = "Cancel", input = null } = {}) {
     $("dialogCancel").hidden = cancel === null;
     field.hidden = input === null;
     field.value = input ?? "";
+    field.inputMode = inputMode;
     const done = (value) => {
       dlg.onclose = null;
       dlg.close();
@@ -140,17 +141,45 @@ function ask(message, { ok = "OK", cancel = "Cancel", input = null } = {}) {
     };
     $("dialogOk").onclick = () => done(input === null ? true : field.value);
     $("dialogCancel").onclick = () => done(input === null ? false : null);
-    field.onkeydown = (e) => e.key === "Enter" && (e.preventDefault(), $("dialogOk").click());
+    // A block body, not `e.key === "Enter" && …`: an on-handler that returns false cancels the key
+    field.onkeydown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        $("dialogOk").click();
+      }
+    };
     dlg.onclose = () => resolve(input === null ? false : null); // Esc
     dlg.showModal();
-    (input === null ? $("dialogOk") : field).focus();
+    if (input === null) $("dialogOk").focus();
+    else {
+      // Select the old value, so typing replaces it
+      field.focus();
+      field.select();
+    }
   });
 }
 
 // Blockly's own dialogs (e.g. "Delete all blocks?") use the same look
 Blockly.dialog.setAlert((msg, cb) => ask(msg, { cancel: null }).then(() => cb && cb()));
 Blockly.dialog.setConfirm((msg, cb) => ask(msg).then(cb));
-Blockly.dialog.setPrompt((msg, def, cb) => ask(msg, { input: def ?? "" }).then(cb));
+// Phones and tablets edit a block's number in this dialog: say which number it is, and open
+// the number keyboard when the value can't be negative (the iPhone number keyboard has no minus key)
+let promptField = null;
+const showPromptEditor = Blockly.FieldNumber.prototype.showPromptEditor;
+Blockly.FieldNumber.prototype.showPromptEditor = function () {
+  promptField = this;
+  try {
+    showPromptEditor.call(this);
+  } finally {
+    promptField = null;
+  }
+};
+Blockly.dialog.setPrompt((msg, def, cb) => {
+  const f = promptField;
+  const label = f && FIELD_PROMPTS[`${f.getSourceBlock()?.type}.${f.name}`];
+  const inputMode = f && f.getMin() >= 0 ? (f.getPrecision() >= 1 ? "numeric" : "decimal") : "text";
+  ask(label ? `${label}:` : msg, { input: def ?? "", inputMode }).then(cb);
+});
 
 // App state
 let FEA = null;
@@ -351,10 +380,30 @@ function refresh() {
     $("code").innerHTML = highlightCode(built);
     highlightCodeLines();
     renderMath(spec);
+    lockBarY();
     // Warnings sit on the blocks themselves as little "!" bubbles
     workspace.getAllBlocks(false).forEach((b) => b.setWarningText(null));
     for (const p of problems) if (p.block && !p.block.isDisposed()) p.block.setWarningText(p.text.replace(/<[^>]+>/g, ""));
   }, 120);
+}
+
+// A bar is 1D: heaters and measuring points on it only have an x, so their y is hidden
+function lockBarY() {
+  for (const b of workspace.getAllBlocks(false)) {
+    if (b.type !== "fem_heater" && b.type !== "fem_probe") continue;
+    const root = b.getRootBlock();
+    let onBar = false;
+    if (root.type === "fem_sim")
+      for (let s = root.getInputTargetBlock("DO"); s; s = s.getNextBlock())
+        if (s.isEnabled() && (s.type === "fem_bar" || s.type === "fem_plate")) {
+          onBar = s.type === "fem_bar";
+          break;
+        }
+    for (const name of ["YLABEL", "Y"]) {
+      const f = b.getField(name);
+      if (f && f.isVisible() === onBar) f.setVisible(!onBar);
+    }
+  }
 }
 
 // Run

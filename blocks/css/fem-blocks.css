@@ -875,7 +875,10 @@ html[data-theme="dark"] .lab-tri .tri-feet {
 
 /* Pixel dialog (replaces the browser's confirm/alert/prompt) */
 .fb-dialog {
-  width: min(440px, 92vw);
+  box-sizing: border-box;
+  width: min(440px, calc(100vw - 2rem));
+  max-width: none;
+  margin: auto;
   padding: 1rem 1.1rem 1.1rem;
   color: var(--ink);
   background: var(--card);
@@ -914,8 +917,10 @@ html[data-theme="dark"] .lab-tri .tri-feet {
 
 .fb-dialog-input {
   grid-column: 1 / -1;
+  min-width: 0;
   font: inherit;
-  padding: 0.35rem 0.5rem;
+  font-size: max(16px, 1rem); /* 16px or more: iPhones zoom into smaller inputs */
+  padding: 0.5rem 0.6rem;
   color: var(--ink);
   background: var(--bg);
   border: 2px solid var(--outline);
@@ -1120,6 +1125,12 @@ html[data-theme="dark"] .lab-tri .tri-feet {
     font-size: 1.05rem !important;
   }
 
+  /* The categories have no icons: drop the empty icon slot */
+  .blocklyToolboxCategoryIcon,
+  .blocklyTreeIcon {
+    display: none !important;
+  }
+
   .fb-legend {
     font-size: 1rem;
   }
@@ -1137,6 +1148,16 @@ html[data-theme="dark"] .lab-tri .tri-feet {
 
   .fb-terms {
     grid-template-columns: 1fr;
+  }
+
+  /* The keyboard covers the bottom half: keep the edit box in the top half */
+  .fb-dialog {
+    margin-top: 1rem;
+  }
+
+  .fb-dialog-tri {
+    width: 48px;
+    height: 48px;
   }
 }
 
