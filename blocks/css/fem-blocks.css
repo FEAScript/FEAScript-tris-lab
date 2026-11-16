@@ -374,6 +374,23 @@ html[data-theme="dark"] .lab-tri .tri-feet {
   cursor: pointer;
 }
 
+/* Phones get the categories in a row along the top (app.js sets data-layout), and the trash and zoom sit
+   bottom-right: Run goes bottom-left. Keyed on the layout, not the screen width, so Run is never under the
+   categories when the screen changes size after the page loads */
+.fb-ws-wrap[data-layout="row"] .fb-run {
+  top: auto;
+  right: auto;
+  left: 0.7rem;
+  bottom: 0.7rem;
+}
+
+/* Categories in a row above the blocks */
+.fb-ws-wrap[data-layout="row"] .blocklyToolbox,
+.fb-ws-wrap[data-layout="row"] .blocklyToolboxDiv {
+  border-right: 0;
+  border-bottom: 3px solid var(--outline);
+}
+
 .fb-run:hover:not(:disabled) {
   filter: brightness(1.08);
 }
@@ -1175,21 +1192,9 @@ html[data-theme="dark"] .lab-tri .tri-feet {
     width: 8px;
   }
 
-  /* The categories run along the top here, and the trash and zoom sit bottom-right: Run goes bottom-left */
   .fb-run {
-    top: auto;
-    right: auto;
-    left: 0.7rem;
-    bottom: 0.7rem;
     padding: 0.35rem 0.8rem 0.35rem 0.6rem;
     font-size: 1.3rem !important;
-  }
-
-  /* Categories in a row above the blocks */
-  .blocklyToolbox,
-  .blocklyToolboxDiv {
-    border-right: 0;
-    border-bottom: 3px solid var(--outline);
   }
 
   .fb-terms {

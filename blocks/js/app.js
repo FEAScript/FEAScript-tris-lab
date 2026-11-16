@@ -181,9 +181,12 @@ Blockly.dialog.setPrompt((msg, def, cb) => {
   ask(label ? `${label}:` : msg, { input: def ?? "", inputMode }).then(cb);
 });
 
-// Phones held upright, and short landscape screens
-const PHONE = matchMedia("(max-width: 640px)").matches;
-const SMALL_SCREEN = PHONE || matchMedia("(orientation: landscape) and (max-height: 540px)").matches;
+// Phones held upright, and short landscape screens. Both can change while the page is open (a foldable opened, a
+// phone turned, split screen), so they are read again when the phone query flips (see makeWorkspace)
+const PHONE_QUERY = matchMedia("(max-width: 640px)");
+const SMALL_QUERY = matchMedia("(orientation: landscape) and (max-height: 540px)");
+let PHONE = PHONE_QUERY.matches;
+let SMALL_SCREEN = PHONE || SMALL_QUERY.matches;
 
 // App state
 let FEA = null;
@@ -581,15 +584,12 @@ async function loadFEAScript() {
   return null;
 }
 
-async function boot() {
-  Tri.start();
-  Results.init();
-  // Measure block text with the pixel font, not a fallback
-  try {
-    await Promise.race([document.fonts.load('17px "Jersey 10"'), new Promise((r) => setTimeout(r, 2500))]);
-  } catch (e) {
-    // Fonts unavailable: Blockly falls back to Roboto Mono
-  }
+// Blockly workspace, with the layout for the current screen
+function makeWorkspace() {
+  PHONE = PHONE_QUERY.matches;
+  SMALL_SCREEN = PHONE || SMALL_QUERY.matches;
+  // Run sits away from the categories: CSS reads this, so it always follows the layout Blockly was given
+  $("workspace").parentElement.dataset.layout = PHONE ? "row" : "column";
   workspace = Blockly.inject("workspace", {
     toolbox: TOOLBOX,
     // Phones: the categories sit in a row above the blocks, so the blocks get the whole width
@@ -617,6 +617,27 @@ async function boot() {
     refresh();
     clearTimeout(boot.saveTimer);
     boot.saveTimer = setTimeout(saveWorkspace, 400);
+  });
+}
+
+async function boot() {
+  Tri.start();
+  Results.init();
+  // Measure block text with the pixel font, not a fallback
+  try {
+    await Promise.race([document.fonts.load('17px "Jersey 10"'), new Promise((r) => setTimeout(r, 2500))]);
+  } catch (e) {
+    // Fonts unavailable: Blockly falls back to Roboto Mono
+  }
+  makeWorkspace();
+  // Blockly cannot switch its toolbox between a row and a column after inject: when the screen crosses the phone width,
+  // build the workspace again with the user's blocks
+  PHONE_QUERY.addEventListener("change", () => {
+    if (PHONE_QUERY.matches === PHONE) return;
+    const blocks = Blockly.serialization.workspaces.save(workspace);
+    workspace.dispose();
+    makeWorkspace();
+    loadWorkspace(blocks);
   });
   new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
