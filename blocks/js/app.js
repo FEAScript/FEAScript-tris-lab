@@ -417,6 +417,8 @@ function refresh() {
     const built = buildCode(spec);
     lastCode = built.lines.join("\n");
     $("code").innerHTML = highlightCode(built);
+    // A block kept selected after focus left the workspace may since have been deleted or replaced
+    if (selectedId && !workspace.getBlockById(selectedId)) selectedType = selectedId = null;
     highlightCodeLines();
     renderMath(spec);
     lockBarY();
@@ -618,6 +620,11 @@ function makeWorkspace() {
   workspace.addChangeListener((e) => {
     if (e.type === Blockly.Events.SELECTED) {
       const b = e.newElementId && workspace.getBlockById(e.newElementId);
+      // Blockly 12 unselects the block whenever focus leaves the workspace (a tab, a button, the
+      // explanation, the code). Keep showing that block then; only a deselect inside the workspace
+      // (or the block going away) clears it. Events fire after the focus change, so activeElement is final.
+      const focusLeft = !workspace.getInjectionDiv().contains(document.activeElement);
+      if (!b && focusLeft && selectedId && workspace.getBlockById(selectedId)) return;
       selectedType = b ? b.type : null;
       selectedId = b ? b.id : null;
       highlightTerm();
