@@ -378,10 +378,6 @@ function highlightTerm() {
       ? `<p class="code-note">This is about <i>how the computer solves</i> the equation, not the equation itself: see <a href="#" data-goto-fem="1">How it's solved</a> below, after a run.</p>`
       : "";
   box.innerHTML = `<h3>${info.title}</h3><p>${info.words}</p>${info.fun ? `<p class="fun">${info.fun}</p>` : ""}${femNote}${codeNote}`;
-  box.querySelector("[data-goto-fem]")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    $("femExplain").scrollIntoView({ block: "nearest", behavior: "smooth" });
-  });
   // The explanation lives in The math tab: make the tab blink if it's not open
   const tab = document.querySelector('.fb-tab[data-tab="fem"]');
   if (!tab.classList.contains("on")) {
@@ -389,10 +385,26 @@ function highlightTerm() {
     void tab.offsetWidth;
     tab.classList.add("ping");
   }
-  box.querySelector("[data-goto]")?.addEventListener("click", (e) => {
+}
+
+// Links inside the block explanation. One delegated listener, because the box is rebuilt on every
+// selection change. The mousedown is cancelled so the link never takes focus: otherwise Blockly sees
+// its workspace lose focus, fires a selection event, the box is rebuilt mid-click and the click is lost.
+function initExplainLinks() {
+  const box = $("blockExplain");
+  box.addEventListener("mousedown", (e) => {
+    if (e.target.closest("[data-goto], [data-goto-fem]")) e.preventDefault();
+  });
+  box.addEventListener("click", (e) => {
+    const link = e.target.closest("[data-goto], [data-goto-fem]");
+    if (!link) return;
     e.preventDefault();
-    selectTab("code");
-    highlightCodeLines(true);
+    if (link.dataset.goto) {
+      selectTab(link.dataset.goto);
+      highlightCodeLines(true);
+    } else {
+      $("femExplain").scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
   });
 }
 
@@ -668,6 +680,7 @@ async function boot() {
     navigator.clipboard?.writeText(lastCode).then(() => toast("Code copied. Paste it into your own page with FEAScript!"));
   });
   document.querySelectorAll(".fb-tab").forEach((t) => t.addEventListener("click", () => selectTab(t.dataset.tab)));
+  initExplainLinks();
   document.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
