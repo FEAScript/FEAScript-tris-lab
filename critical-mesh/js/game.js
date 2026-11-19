@@ -58,6 +58,8 @@ const G = {
   hover: null,
   warnedHot: false,
   solveMs: [],
+  playMs: 0, // time on the Plate, paused while a modal is open
+  lastTick: 0,
   shake: 0,
   flash: 0,
   meltdown: false,
@@ -174,6 +176,8 @@ const Game = {
     G.scanGhost = null;
     G.warnedHot = false;
     G.solveMs = [];
+    G.playMs = 0;
+    G.lastTick = 0;
     G.meltdown = false;
     G.flash = 0;
     G.shake = 0;
@@ -693,7 +697,12 @@ const Game = {
 
   // Per-frame update while a shift is running
   update(dt) {
-    if ($("modal").classList.contains("open")) return; // reading a note or a briefing pauses the shift
+    const now = performance.now();
+    const paused = $("modal").classList.contains("open"); // reading a note or a briefing pauses the shift
+    // Shift clock: real time between frames, gaps over 1 s (hidden tab) are not counted
+    if (!paused && G.phase !== "over" && G.lastTick) G.playMs += Math.min(1000, now - G.lastTick);
+    G.lastTick = now;
+    if (paused) return;
     Engineer.update(dt);
     // "Mount at" follows your boots, unless you are typing in it or have typed and not pressed GO yet
     // (on phones the field loses focus a few frames before the GO tap lands)

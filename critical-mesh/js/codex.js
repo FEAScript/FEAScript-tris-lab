@@ -276,7 +276,8 @@ const Codex = {
   // The Field Notes book
   open(id = null) {
     const unlocked = NOTES.filter((n) => this.has(n.id));
-    const current = NOTE_BY_ID[id] && this.has(id) ? id : $("noteToast").dataset.note && this.has($("noteToast").dataset.note) ? $("noteToast").dataset.note : unlocked[0]?.id;
+    const toast = $("noteToast").dataset.note;
+    const current = NOTE_BY_ID[id] ? id : toast && this.has(toast) ? toast : unlocked[0]?.id;
     $("noteToast").classList.remove("show");
     const list = NOTES.map((n) => {
       const open = this.has(n.id);
@@ -313,6 +314,16 @@ const Codex = {
       return;
     }
     const locked = NOTES.filter((x) => !this.has(x.id));
+    if (!this.has(id)) {
+      // Asked for from a term of the equation before Tri wrote it down
+      page.style.setProperty("--phys", PHYSICS[n.physics].color);
+      page.innerHTML = `
+        <div class="phys-tag" style="--phys:${PHYSICS[n.physics].color}">${PHYSICS[n.physics].label}</div>
+        <h4>? ? ?</h4>
+        <p class="note-empty">Tri hasn't written this note yet.</p>
+        <p class="note-next">To find it: <i>${n.how}</i></p>`;
+      return;
+    }
     page.style.setProperty("--phys", PHYSICS[n.physics].color);
     page.innerHTML = `
       <div class="phys-tag" style="--phys:${PHYSICS[n.physics].color}">${PHYSICS[n.physics].label}</div>
@@ -406,5 +417,6 @@ const Codex = {
 // Equation block for the interlude equation panel
 function labEquationHtml(type) {
   const eq = { gantry: EQ.beam, pour: EQ.front, pump: EQ.flow }[type];
-  return `<div class="eq-big small">${eqHtml(eq)}</div>`;
+  const note = { gantry: "beam", pour: "front", pump: "flow" }[type];
+  return `<div class="eq-big small" data-open-note="${note}" title="Open the Field Note">${eqHtml(eq)}</div>`;
 }

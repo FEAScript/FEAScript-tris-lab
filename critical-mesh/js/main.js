@@ -62,7 +62,7 @@ function wireBoard() {
   $("eqPanel").addEventListener("click", (e) => {
     const el = e.target.closest("[data-term], [data-edge]");
     const id = el && TERM_NOTE[el.dataset.term || el.dataset.edge];
-    if (id && Codex.has(id)) Codex.open(id);
+    if (id) Codex.open(id); // a locked note opens on its "how to find it" hint
   });
 }
 

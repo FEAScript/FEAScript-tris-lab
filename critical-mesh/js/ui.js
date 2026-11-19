@@ -287,14 +287,14 @@ function quoteHtml(who, text, canvasId) {
 }
 
 function statsHtml(extra = []) {
-  const avg = G.solveMs.length ? G.solveMs.reduce((a, b) => a + b, 0) / G.solveMs.length : 0;
+  const secs = Math.round(G.playMs / 1000);
   const rows = [
     ["Cells mounted", G.placed],
     ["Peak temperature", `${G.peakT.toFixed(1)} °C`],
     ["Critical limit", `${G.limit} °C`],
     ["Hearts left", `${Math.max(0, Engineer.hearts)} / ${Engineer.maxHearts}`],
     ["FEAScript solves", G.solveMs.length],
-    ["Avg solve time", `${avg.toFixed(0)} ms`],
+    ["Time on shift", `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`],
     ...extra,
   ];
   return `<div class="stats-grid">${rows.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join("")}</div>`;

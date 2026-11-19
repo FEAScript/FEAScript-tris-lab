@@ -1646,8 +1646,17 @@ details.eq-panel summary .eq-more {
 .eq-big .term,
 .eq-probe [data-term],
 .eq-edges [data-edge],
-.eq-fem [data-edge] {
+.eq-fem [data-edge],
+.eq-big[data-open-note],
+.eq-big[data-open-note] .term {
   cursor: help;
+}
+
+/* Inside the Field Notes book the equation is the note itself, so nothing to click */
+.note-page .eq-big .term,
+.note-page .eq-big .term:hover {
+  cursor: inherit;
+  border-bottom-color: transparent;
 }
 
 .eq-big .term {
